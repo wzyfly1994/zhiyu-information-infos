@@ -1,0 +1,21 @@
+server:
+  port: 8702
+
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # 不需要自己注册自己
+    registerWithEureka: false
+    # 不需要检索服务
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: eureka-server

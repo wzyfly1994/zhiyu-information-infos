@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiyu.common.mapper.SystemRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhiyu.common.entity.pojo.SystemRole">
+        <id column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_value" property="roleValue" />
+        <result column="dep_id" property="depId" />
+        <result column="is_use" property="isUse" />
+        <result column="record_date" property="recordDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_name, role_value, dep_id, is_use, record_date
+    </sql>
+
+</mapper>

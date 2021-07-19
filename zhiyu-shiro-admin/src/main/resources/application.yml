@@ -1,0 +1,68 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: shiro-admin
+  cloud:
+    consul:
+      host: ${service.registry.consul-host}
+      port: ${service.registry.consul-port}
+      discovery:
+        health-check-interval: 5s
+        serviceName: ${spring.application.name}
+        health-check-url: http://${service.registry.expose-host}:${service.registry.expose-port}${management.server.servlet.context-path}/info
+        enabled: true
+        # 默认设置queryPassing=false，即返回所有的服务，包括down掉的。通过配置改为true则可返回所有健康检查通过的服务
+        query-passing: true
+        prefer-ip-address: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/wzy?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+        hbm2ddl:
+          auto: update
+    show-sql: true
+    open-in-view: false
+  redis:
+    host: 127.0.0.1
+    password: 123456
+    database: 1
+    port: 6379
+    timeout: 5000
+    expire: 7200
+    testWhileIdle: true
+    lettuce:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: 100000
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: zhiyu
+
+
+# 自定义属性
+custom:
+  jwt:
+    secret-key: zhiyu-secret
+
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        ConnectTimeout: 30000
+        ReadTimeout: 30000
+
+
+

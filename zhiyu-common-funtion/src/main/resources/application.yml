@@ -1,0 +1,107 @@
+# 上下文路径及端口设置
+# service 端口
+server:
+  port: 8055
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /common-funtion
+
+
+# 服务注册及暴露地址端口信息
+service:
+  registry:
+    expose-host: 127.0.0.1
+    expose-port: ${server.port}
+    consul-host: 127.0.0.1
+    consul-port: 8500
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /
+  server:
+    servlet:
+      context-path: ${server.servlet.context-path}
+    port: ${server.port}
+  endpoint:
+    health:
+      show-details: always
+info: {status: ok}
+
+
+spring:
+  profiles:
+    active: test
+  application:
+    name: common-funtion
+  cloud:
+    consul:
+      host: ${service.registry.consul-host}
+      port: ${service.registry.consul-port}
+      discovery:
+        health-check-interval: 5s
+        serviceName: ${spring.application.name}
+        health-check-url: http://${service.registry.expose-host}:${service.registry.expose-port}${management.server.servlet.context-path}/info
+        enabled: true
+        # 默认设置queryPassing=false，即返回所有的服务，包括down掉的。通过配置改为true则可返回所有健康检查通过的服务
+        query-passing: true
+        prefer-ip-address: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/wzy?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  redis:
+    host: 127.0.0.1
+    password: 123456
+    database: 1
+    port: 6379
+    timeout: 5000
+    expire: 7200
+    testWhileIdle: true
+    lettuce:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: 100000
+
+#负载均衡规则
+#pay-service:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.zhiyu.common.config.LoadBalanceRule
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        ConnectTimeout: 30000
+        ReadTimeout: 30000
+
+xxl:
+  job:
+    accessToken:
+    admin:
+      #调度中心集群部署存在多个地址则用逗号分隔。
+      #执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册
+      addresses: http://127.0.0.1:8001/xxl-job-admin
+    executor:
+      # 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+      appname: zhiyu-common-funtion
+      # 执行器IP [选填]：默认为空表示自动获取IP，多网卡时可手动设置指定IP，该IP不会绑定Host仅作为通讯实用；地址信息用于 "执行器注册" 和 "调度中心请求并触发任务"；
+      ip:
+      logpath: /data/applogs/xxl-job/jobhandler
+      # 执行器日志文件保存天数 [选填] ： 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能；
+      logretentiondays: 3
+      # 执行器端口号 [选填]：小于等于0则自动获取；默认端口为9999，单机部署多个执行器时，注意要配置不同执行器端口；
+      port: 9999
+      # 执行器注册 [选填]：优先使用该配置作为注册地址，为空时使用内嵌服务 ”IP:PORT“ 作为注册地址。从而更灵活的支持容器类型执行器动态IP和动态映射端口问题。
+      address:
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #打印sql

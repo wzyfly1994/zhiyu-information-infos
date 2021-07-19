@@ -1,0 +1,29 @@
+server:
+  port: 8700
+  servlet:
+    context-path: /dubbo_provider
+
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: dubbo_provider
+
+
+
+dubbo:
+  scan:
+    base-packages: com.dubbo.provider.service
+  application:
+    #注册到注册中心的名称
+    name: dubbo_provider
+    #采用协议和端口号
+  protocol:
+    #采用dubbo协议
+    name: dubbo
+    #发布dubbo端口号
+    port: 1990
+  registry:
+    #注册中心地址
+    address: zookeeper://127.0.0.1:2181

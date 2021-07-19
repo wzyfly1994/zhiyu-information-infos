@@ -1,0 +1,94 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: geteway
+  redis:
+    host: 127.0.0.1
+    password: 123456
+    database: 3
+    port: 6379
+    timeout: 5000
+    expire: 7200
+    testWhileIdle: true
+    lettuce:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: 100000
+  cloud:
+    consul:
+      host: ${service.registry.consul-host}
+      port: ${service.registry.consul-port}
+      discovery:
+        health-check-interval: 5s
+        serviceName: ${spring.application.name}
+        health-check-url: http://${service.registry.expose-host}:${service.registry.expose-port}${management.server.servlet.context-path}/info
+        enabled: true
+        # 默认设置queryPassing=false，即返回所有的服务，包括down掉的。通过配置改为true则可返回所有健康检查通过的服务
+        query-passing: true
+        prefer-ip-address: true
+    gateway:
+      routes:
+        - id: 后台管理
+          uri: lb://shiro-admin
+          predicates:
+            - Path=/shiro-admin/**
+          filters:
+           - name: Hystrix
+             args:
+               name: fallbackcmd
+               fallbackUri: forward:/fallback
+#           - name: RequestRateLimiter
+#             args:
+#               #  方法名
+#               key-resolver: "#{@apiKeyResolver}"
+#               #  牌桶每秒填充平均速率 允许用户每秒处理多少个请求
+#               redis-rate-limiter.replenishRate: 1
+#               #  令牌桶容量 允许在一秒钟内完成的最大请求数
+#               redis-rate-limiter.burstCapacity: 1
+        - id: 支付服务
+          uri: lb://pay-service
+          predicates:
+            - Path=/pay-service/**
+          filters:
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback
+            - name: RequestRateLimiter
+              args:
+                #  方法名
+                key-resolver: "#{@apiKeyResolver}"
+                #  牌桶每秒填充平均速率 允许用户每秒处理多少个请求
+                redis-rate-limiter.replenishRate: 1
+                #  令牌桶容量 允许在一秒钟内完成的最大请求数
+                redis-rate-limiter.burstCapacity: 1
+
+
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+
+
+ribbon:
+  eager-load:
+    enabled: true
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+open:
+  path:
+    global: /*/v2/api-docs;/*/info;/*/open/**
+
+jwt:
+  signing:
+    key: cf7031334895495582bf05fa6d2f57e1

@@ -1,0 +1,31 @@
+server:
+  port: 8701
+  servlet:
+    context-path: /dubbo_consumer
+
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: dubbo_consumer
+
+
+
+dubbo:
+  scan:
+    base-packages: com.dubbo.consumer
+  application:
+    #注册服务的名称
+    name: dubbo_consumer
+  protocol:
+    #采用dubbo协议
+    name: dubbo
+    #发布dubbo端口号
+    port: 1991
+  registry:
+    #注册中心地址
+    address: zookeeper://127.0.0.1:2181
+  consumer:
+    #调用服务超时时间
+    timeout: 5000
