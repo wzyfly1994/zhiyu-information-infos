@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zhiyu</groupId>
-    <artifactId>zhiyu-information-info</artifactId>
+    <artifactId>zhiyu-information-infos</artifactId>
     <version>1.0</version>
     <description>系统化</description>
     <packaging>pom</packaging>
@@ -180,16 +180,16 @@
             </dependency>
 
             <!-- Elasticsearch 依赖-->
-            <dependency>
-                <groupId>org.elasticsearch</groupId>
-                <artifactId>elasticsearch</artifactId>
-                <version>${es-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${es-version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.elasticsearch</groupId>-->
+<!--                <artifactId>elasticsearch</artifactId>-->
+<!--                <version>${es-version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.elasticsearch.client</groupId>-->
+<!--                <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
+<!--                <version>${es-version}</version>-->
+<!--            </dependency>-->
 
         </dependencies>
     </dependencyManagement>

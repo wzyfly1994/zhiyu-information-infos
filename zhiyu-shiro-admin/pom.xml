@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>zhiyu-information-info</artifactId>
+        <artifactId>zhiyu-information-infos</artifactId>
         <groupId>com.zhiyu</groupId>
         <version>1.0</version>
     </parent>
