@@ -11,9 +11,10 @@ public class Test06 {
 
 
     public static void main(String[] args) {
-        ClassLoader classLoader=SystemRole.class.getClassLoader();
-        System.out.println(JSON.toJSONString(classLoader));
-
+//        ClassLoader classLoader=SystemRole.class.getClassLoader();
+//        System.out.println(JSON.toJSONString(classLoader));
+       String s="{ \"properties\": { \"id\": { \"type\": \"integer\" }, \"name\": { \"type\": \"keyword\" }, \"price\": { \"type\": \"double\" }, \"detail\": { \"type\": \"text\" } } }";
+        System.out.println(s);
     }
 
 }

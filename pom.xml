@@ -42,7 +42,7 @@
         <hutool.version>5.4.5</hutool.version>
         <lombok.version>1.18.10</lombok.version>
         <swagger2.version>2.9.2</swagger2.version>
-        <redisson.version>3.12.5</redisson.version>
+        <redisson.version>3.16.1</redisson.version>
         <mybatis.plus.version>3.4.1</mybatis.plus.version>
         <encrypt.version>1.0.1.RELEASE</encrypt.version>
         <guava.version>30.0-jre</guava.version>
@@ -51,7 +51,8 @@
         <zkclient.version>0.11</zkclient.version>
         <rocketmq.version>2.0.3</rocketmq.version>
         <xxl-job-core.version>2.3.1-SNAPSHOT</xxl-job-core.version>
-        <es-version>7.13.2</es-version>
+        <es-version>7.6.2</es-version>
+        <es-spring.version>4.0.9.RELEASE</es-spring.version>
     </properties>
 
     <dependencyManagement>
@@ -190,6 +191,12 @@
 <!--                <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
 <!--                <version>${es-version}</version>-->
 <!--            </dependency>-->
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-elasticsearch</artifactId>
+                <version>${es-spring.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

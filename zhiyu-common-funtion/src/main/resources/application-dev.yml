@@ -106,3 +106,13 @@ xxl:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #打印sql
+
+
+
+es:
+  host: 127.0.0.1
+  port: 9200
+  user-name: elastic
+  password: 123456
+  connect-num: 100
+  connect-per-route: 100
