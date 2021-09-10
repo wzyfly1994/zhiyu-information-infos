@@ -8,17 +8,14 @@ import lombok.Data;
  * @since 2021/8/27 17:52
  */
 @Data
-public class IndexDocDto<T> {
+public class IndexDocDto {
 
-    @ApiModelProperty(value = "索引名称",example = "goods")
+    @ApiModelProperty(value = "索引名称",example = "employee_index")
     private String index;
-
-    @ApiModelProperty(value = "索引类型",example = "b2b")
-    private String type;
 
     @ApiModelProperty(value = "索引ID",example = "1")
     private String id;
 
-    @ApiModelProperty(value = "数据")
-    private T source;
+    @ApiModelProperty(value = "数据体 JSON格式")
+    private String source;
 }

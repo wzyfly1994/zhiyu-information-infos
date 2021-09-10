@@ -21,7 +21,6 @@ public interface ElasticsearchService {
      * @param settings
      * @param mappings
      * @return
-     *
      */
     ResponseData createIndex(String index, String settings, String mappings);
 
@@ -31,7 +30,6 @@ public interface ElasticsearchService {
      * @param createIndexRequest
      * @param setting
      * @return
-     *
      */
     void buildIndexSetting(CreateIndexRequest createIndexRequest, String setting);
 
@@ -41,29 +39,24 @@ public interface ElasticsearchService {
      * @param createIndexRequest
      * @param mapping
      * @return
-     *
      */
     void buildIndexMapping(CreateIndexRequest createIndexRequest, String mapping);
+
+    /**
+     * 删除索引
+     *
+     * @param indexName 索引名称
+     * @return
+     */
+    ResponseData deleteIndex(String indexName);
 
     /**
      * 添加索引文档
      *
      * @param indexDocDto
      * @return
-     *
      */
     ResponseData createIndexDoc(IndexDocDto indexDocDto);
-
-    /**
-     * 删除索引
-     *
-     * @param index 索引名称
-     * @param type  类型
-     * @param id    id
-     * @return
-     *
-     */
-    ResponseData deleteIndex(String index, String type, String id);
 
 
     /**
@@ -76,19 +69,28 @@ public interface ElasticsearchService {
 
 
     /**
+     * 删除文档
+     * @param index
+     * @param id
+     * @return
+     */
+    ResponseData  deleteIndexDoc(String index, String id);
+
+
+    /**
      * 批量添加
      *
      * @param indexDocDtoList
      * @return
      */
-    void bulkInsert(List<IndexDocDto> indexDocDtoList);
+    ResponseData bulkInsert(List<IndexDocDto> indexDocDtoList);
+
 
     /**
      * 全文检索
      *
      * @param searchDocDto
      * @return
-     *
      */
     ResponseData allSearch(SearchDocDto searchDocDto);
 
@@ -97,7 +99,6 @@ public interface ElasticsearchService {
      *
      * @param index
      * @return
-     *
      */
     String[] getAllFieldNames(String index);
 
@@ -106,7 +107,6 @@ public interface ElasticsearchService {
      *
      * @param index
      * @return
-     *
      */
     String[] getQueryFieldNames(String index);
 
@@ -116,7 +116,6 @@ public interface ElasticsearchService {
      * @param searchHits
      * @param isHighlight
      * @return
-     *
      */
     List getSearchList(SearchHit[] searchHits, Boolean isHighlight);
 }

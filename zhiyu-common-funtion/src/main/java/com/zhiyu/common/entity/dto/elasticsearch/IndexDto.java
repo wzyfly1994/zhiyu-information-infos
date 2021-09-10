@@ -9,14 +9,8 @@ import lombok.Data;
  */
 @Data
 public class IndexDto {
-    @ApiModelProperty(value = "索引名称",example = "goods")
+    @ApiModelProperty(value = "索引名称",example = "employee_index")
     private String index;
-
-    @ApiModelProperty(value = "索引类型",example = "b2b")
-    private String type;
-
-    @ApiModelProperty(value = "索引ID",example = "1")
-    private String id;
 
     @ApiModelProperty(value = "分片设置信息",example = "json格式")
     private String settings;

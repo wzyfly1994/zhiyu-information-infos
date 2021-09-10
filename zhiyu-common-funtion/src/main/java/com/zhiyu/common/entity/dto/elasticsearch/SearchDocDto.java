@@ -9,15 +9,12 @@ import lombok.Data;
  * @since 2021/8/27 17:52
  */
 @Data
-@ApiModel(value = "搜索DTO")
+@ApiModel(value = "搜索")
 public class SearchDocDto {
-    @ApiModelProperty(value = "索引名称", example = "goods")
+    @ApiModelProperty(value = "索引名称", example = "employee_index")
     private String index;
 
-    @ApiModelProperty(value = "索引类型", example = "b2b")
-    private String type;
-
-    @ApiModelProperty(value = "搜索内容", example = "huawei")
+    @ApiModelProperty(value = "搜索内容", example = "治愈君")
     private String keywords;
 
     @ApiModelProperty(value = "第几页", example = "1")
