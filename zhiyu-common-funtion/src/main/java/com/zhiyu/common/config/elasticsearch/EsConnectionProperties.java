@@ -2,7 +2,6 @@ package com.zhiyu.common.config.elasticsearch;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author wengzhiyu
@@ -32,12 +31,12 @@ public class EsConnectionProperties {
     private String password;
 
     /**
-     * 连接数
+     * 最大总连接数
      */
     private int connectNum;
 
     /**
-     * 连接路由
+     * 每个路由值的最大连接数
      */
     private int connectPerRoute;
 }

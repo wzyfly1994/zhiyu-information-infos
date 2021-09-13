@@ -1,5 +1,6 @@
 package com.zhiyu.common.entity.dto.elasticsearch;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import lombok.Data;
  * @since 2021/8/27 17:52
  */
 @Data
+@ApiModel(value = "索引")
 public class IndexDto {
     @ApiModelProperty(value = "索引名称",example = "employee_index")
     private String index;

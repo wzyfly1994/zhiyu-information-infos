@@ -28,9 +28,7 @@ import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.common.text.Text;
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
@@ -44,6 +42,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,42 +188,32 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
             SearchRequest searchRequest = new SearchRequest(index);
             SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
             String[] fieldNames = getQueryFieldNames(index);
-            MatchQueryBuilder queryBuilder = QueryBuilders.matchQuery("detail", searchDocDto.getKeywords());
-            queryBuilder.fuzziness(Fuzziness.AUTO);
-
             // 模糊匹配
-//            MultiMatchQueryBuilder matchQueryBuilder = QueryBuilders.multiMatchQuery(searchDocDto.getKeywords(), fieldNames);
-//            matchQueryBuilder.fuzziness(Fuzziness.AUTO);
-            //sourceBuilder.query(QueryBuilders.multiMatchQuery(searchDocDto.getKeywords(), fieldNames).fuzziness(Fuzziness.AUTO).maxExpansions(10));
-            sourceBuilder.query(queryBuilder);
+            MultiMatchQueryBuilder matchQueryBuilder = QueryBuilders.multiMatchQuery(searchDocDto.getKeywords(), fieldNames);
+            // TODO 若设置matchQueryBuilder.fuzziness(Fuzziness.AUTO) 高亮查询失效，待解决
+            sourceBuilder.query(matchQueryBuilder.maxExpansions(10));
             sourceBuilder.from(startIndex);
             sourceBuilder.size(pageSize);
             if (searchDocDto.getIsHighlight()) {
                 HighlightBuilder highlightBuilder = new HighlightBuilder();
-                // highlightBuilder.field("detail").preTags("<font color='red'>").postTags("</font>");
-//                Arrays.stream(fieldNames).forEach(e -> {
-//                            highlightBuilder.field(e).preTags("<font color='red'>").postTags("</font>");
-//                        }
-//                );
-               highlightBuilder.field("detail").preTags("<font color='red'>").postTags("</font>");
-//                HighlightBuilder.Field field=new HighlightBuilder.Field("detail");
-//                field.highlighterType("unified");
-                //highlightBuilder.field("detail").highlighterType("unified");
-                highlightBuilder.highlighterType("unified");
-                highlightBuilder.highlightQuery(queryBuilder);
+                Arrays.stream(fieldNames).forEach(e -> {
+                            highlightBuilder.field(e).
+                                    highlighterType("unified").
+                                    preTags("<font color='red'>").
+                                    postTags("</font>");
+                        }
+                );
                 sourceBuilder.highlighter(highlightBuilder);
             }
             searchRequest.source(sourceBuilder);
-
             SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
             RestStatus restStatus = searchResponse.status();
-            log.info(String.valueOf(restStatus.getStatus()));
             if (RestStatus.OK.equals(restStatus)) {
                 SearchHits hits = searchResponse.getHits();
                 TotalHits totalHits = hits.getTotalHits();
                 float maxScore = hits.getMaxScore();
-                log.info(String.valueOf(totalHits));
-                log.info(String.valueOf(maxScore));
+                log.info("totalHits:{}", totalHits);
+                log.info("maxScore:{}", maxScore);
                 SearchHit[] searchHits = hits.getHits();
                 searchList = getSearchList(searchHits, searchDocDto.getIsHighlight());
                 page.setRecords(searchList);
@@ -232,6 +221,7 @@ public class ElasticsearchServiceImpl implements ElasticsearchService {
             }
             return ResponseData.success(page);
         } catch (Exception e) {
+            log.error("查询失败", e);
             throw new BusinessException(e.getMessage());
         }
     }

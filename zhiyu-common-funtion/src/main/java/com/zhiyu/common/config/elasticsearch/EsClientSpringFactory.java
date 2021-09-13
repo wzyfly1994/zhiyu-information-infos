@@ -24,8 +24,8 @@ public class EsClientSpringFactory {
     private static final int CONNECT_TIMEOUT_MILLIS = 1000;
     private static final int SOCKET_TIMEOUT_MILLIS = 30000;
     private static final int CONNECTION_REQUEST_TIMEOUT_MILLIS = 500;
-    private static int MAX_CONN_PER_ROUTE = 10;
-    private static int MAX_CONN_TOTAL = 30;
+    private static int MAX_CONN_PER_ROUTE ;
+    private static int MAX_CONN_TOTAL ;
 
     private static HttpHost httpHost;
     private static String userName;
