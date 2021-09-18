@@ -28,11 +28,11 @@ public class RuleHandler {
     @Test
     public void test() {
         FlowContext flowContext = new FlowContext();
-        flowContext.setMessage("KO");
-        loadMessageFlow.execute(flowContext);
-        sendMessageRule.execute(flowContext);
+//        flowContext.setMessage("KO");
+//        loadMessageFlow.execute(flowContext);
+//        sendMessageRule.execute(flowContext);
 
-       // new FunctionFlowChain<>().initContext(flowContext).addFlow(loadMessageFlow).addFlow(sendMessageRule).start((success,flowContext) ->{return null;} );
+        new FunctionFlowChain<>().initContext(flowContext).addFlow(loadMessageFlow).addFlow(sendMessageRule).start((success,flowContexts) ->{return null;} );
     }
 
 
