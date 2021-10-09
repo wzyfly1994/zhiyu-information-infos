@@ -1,6 +1,5 @@
 package com.zhiyu.pay.config;
 
-import com.zhiyu.common.thread.ThreadFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -18,7 +17,7 @@ public class ApplicationRunnerConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         //初始化线程池
-        ThreadFactory.init();
-        log.info("初始化线程池完成");
+//        ThreadFactory.init();
+//        log.info("初始化线程池完成");
     }
 }

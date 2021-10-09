@@ -136,11 +136,11 @@
             <artifactId>guava</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.zhiyu.common</groupId>
-            <artifactId>zhiyu-common-funtion</artifactId>
-            <version>${zhiyu.common.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.zhiyu.common</groupId>-->
+<!--            <artifactId>zhiyu-common-funtion</artifactId>-->
+<!--            <version>${zhiyu.common.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.alibaba.csp</groupId>

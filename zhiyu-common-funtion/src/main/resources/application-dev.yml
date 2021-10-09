@@ -116,3 +116,17 @@ es:
   password: 123456
   connect-num: 100
   connect-per-route: 100
+
+defaultZones:
+  http://${EUREKA_USERNAME:user}:${EUREKA_PASSWORD:hYuvXBtGC!aX}@base-register:30001/eureka/
+
+user: 11
+
+test1:
+  ${user:331}
+
+logging:
+  level:
+    root: INFO
+
+

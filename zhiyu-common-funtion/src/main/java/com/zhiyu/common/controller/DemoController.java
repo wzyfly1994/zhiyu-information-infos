@@ -1,14 +1,20 @@
 package com.zhiyu.common.controller;
 
+import com.zhiyu.common.feign.PayClient;
 import com.zhiyu.common.service.DemoService;
+import com.zhiyu.common.utils.response.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,18 +27,23 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class DemoController {
 
-    @Autowired
-    private DemoService demoService;
-    @Autowired
-    private RedissonClient redissonClient;
+    private final DemoService demoService;
+    private final RedissonClient redissonClient;
+    private final PayClient payClient;
+
+    public DemoController(DemoService demoService, RedissonClient redissonClient, PayClient payClient) {
+        this.demoService = demoService;
+        this.redissonClient = redissonClient;
+        this.payClient = payClient;
+    }
 
 
     @GetMapping("/async")
     @Transactional(rollbackFor = Exception.class)
     public void demoAsync() {
-       // demoService.async1();
+        // demoService.async1();
         demoService.async2();
-       // demoService.async3();
+        // demoService.async3();
         log.info("《==================demoAsync====================================》");
     }
 
@@ -83,4 +94,16 @@ public class DemoController {
         }
         return threadName;
     }
+
+
+    @PostMapping("/clientHeader")
+    public ResponseData demoClientHeader(@RequestHeader(value = "client", defaultValue = "1", required = false) String client
+    ,String name) {
+        log.info("common--header---client-->{}",client);
+        log.info("common--name---client-->{}",name);
+        String value = payClient.testHttp(name);
+        log.info("client返回-->{}",value);
+        return ResponseData.success(value);
+    }
+
 }

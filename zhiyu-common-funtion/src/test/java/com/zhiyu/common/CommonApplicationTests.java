@@ -13,8 +13,8 @@ class CommonApplicationTests {
 
     @Test
     void contextLoads() {
-        String port = payClient.testHttp();
-        System.out.println(port);
+//        String port = payClient.testHttp("name");
+//        System.out.println(port);
     }
 
 }

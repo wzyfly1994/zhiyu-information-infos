@@ -16,7 +16,7 @@ public class PayClientFallbackFactory implements FallbackFactory<PayClient> {
     public PayClient create(Throwable throwable) {
         return new PayClient() {
             @Override
-            public String testHttp() {
+            public String testHttp(String name) {
                 log.error("支付服务降级: ", throwable);
                 return "支付服务不可用";
             }

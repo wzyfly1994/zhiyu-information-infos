@@ -62,8 +62,10 @@ public class TestController {
         return ResponseData.success(data);
     }
 
-    @GetMapping("testhttp")
-    public String testhttp() {
+    @PostMapping("testhttp")
+    public String testhttp(@RequestHeader(value = "client",required = false) String client,String name) {
+        log.info("pay--header---client-->{}",client);
+        log.info("pay--name---client-->{}",name);
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert servletRequestAttributes != null;
         HttpServletResponse httpServletResponse = servletRequestAttributes.getResponse();
