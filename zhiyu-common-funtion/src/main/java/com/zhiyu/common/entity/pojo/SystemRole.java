@@ -8,6 +8,8 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import org.checkerframework.checker.units.qual.A;
 
 /**
  * <p>
@@ -18,6 +20,7 @@ import lombok.EqualsAndHashCode;
  * @since 2021-06-17
  */
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 public class SystemRole implements Serializable {
 
