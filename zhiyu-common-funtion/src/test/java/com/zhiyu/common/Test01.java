@@ -22,6 +22,8 @@ public class Test01 {
             public void run() {
                 System.out.println("2222");
                 System.out.println("ThresdName---"+Thread.currentThread().getName());
+                String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+                System.out.println("methodName+++++++++++"+methodName);
                 for (int i = 0; i <10 ; i++) {
                 }
             }

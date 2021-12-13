@@ -45,8 +45,9 @@ public class Test07 {
 //        List<SystemRole> list = systemRoleService.list(new LambdaQueryWrapper<SystemRole>().eq(SystemRole::getRoleName, "123"));
 //        System.out.println(list.size());
 
-        System.out.println(value);
-        System.out.println(test1);
+//        System.out.println(value);
+//        System.out.println(test1);
+        systemRoleService.list();
 
     }
 

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -42,6 +44,7 @@ public class SystemRole implements Serializable {
     /**
      * 是否有效
      */
+    @TableLogic
     private Boolean isUse;
 
     /**
