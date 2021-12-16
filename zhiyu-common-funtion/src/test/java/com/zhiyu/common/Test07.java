@@ -1,6 +1,7 @@
 package com.zhiyu.common;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zhiyu.common.entity.pojo.SystemRole;
 import com.zhiyu.common.service.DemoService;
 import com.zhiyu.common.service.SystemRoleService;
@@ -47,7 +48,13 @@ public class Test07 {
 
 //        System.out.println(value);
 //        System.out.println(test1);
-        systemRoleService.list();
+        SystemRole systemRole=new SystemRole();
+        systemRole.setRoleName("A");
+        LambdaQueryWrapper<SystemRole> lqw = Wrappers.lambdaQuery();
+        lqw.eq(SystemRole::getRoleName,"A");
+        System.out.println(lqw.getEntity());
+        List<SystemRole> list = systemRoleService.list(lqw);
+        System.out.println(list);
 
     }
 

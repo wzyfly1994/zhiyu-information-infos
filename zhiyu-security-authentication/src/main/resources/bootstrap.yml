@@ -1,0 +1,37 @@
+
+# 上下文路径及端口设置
+# service 端口
+server:
+  port: 8097
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /security
+
+
+
+# 服务注册及暴露地址端口信息
+service:
+  registry:
+    expose-host: 127.0.0.1
+    expose-port: ${server.port}
+    consul-host: 127.0.0.1
+    consul-port: 8500
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /
+  server:
+    servlet:
+      context-path: ${server.servlet.context-path}
+    port: ${server.port}
+  endpoint:
+    health:
+      show-details: always
+info: {status: ok}
+
+
+
