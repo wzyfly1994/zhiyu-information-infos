@@ -12,7 +12,7 @@
     <artifactId>zhiyu-common-funtion</artifactId>
     <version>1.0.0</version>
     <name>zhiyu-common-funtion</name>
-    <description>公共工具包</description>
+    <description>模板工程</description>
 
     <properties>
         <java.version>1.8</java.version>

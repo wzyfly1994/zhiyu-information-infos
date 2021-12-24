@@ -94,6 +94,12 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.zhiyu.core</groupId>
+            <artifactId>zhiyu-information-core</artifactId>
+            <version>${zhiyu.information.core}</version>
+        </dependency>
+
     </dependencies>
 
 
