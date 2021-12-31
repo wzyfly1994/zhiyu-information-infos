@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author wengzhiyu
  * @since 2021/8/27 17:52
  */
-@ConfigurationProperties(prefix = "es")
+//@ConfigurationProperties(prefix = "es")
 @Data
 public class EsConnectionProperties {
     /**

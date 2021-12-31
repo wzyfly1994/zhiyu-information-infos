@@ -3,6 +3,10 @@ package com.zhiyu.common;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * @author wengzhiyu
  * @since 2021/12/13 11:29
@@ -22,9 +26,9 @@ public class BinaryTest {
         log.info("{} 二进制 {}", num1, Integer.toBinaryString(num1));
         log.info("{} 二进制 {}", num2, Integer.toBinaryString(num2));
         // 两个数的二进制对比 都为1，结果才为1，否则结果为0 1111 & 1100 ->1100
-        log.info("与运算{}^{}-->{}-->二进制 {}", num1, num2, num1 & num2, Integer.toBinaryString(num1 & num2));
+        log.info("与运算{}&{}-->{}-->二进制 {}", num1, num2, num1 & num2, Integer.toBinaryString(num1 & num2));
         // 两个数的二进制只要有一个为1，那么结果就是1，否则就为0 1111 | 1100 -> 1111
-        log.info("或运算{}^{}-->{}-->二进制 {}", num1, num2, num1 | num2, Integer.toBinaryString(num1 | num2));
+        log.info("或运算{}|{}-->{}-->二进制 {}", num1, num2, num1 | num2, Integer.toBinaryString(num1 | num2));
         // 两个数的二进制相同则结果为0，不同则结果为1  1111 ^ 1100 -> 0011
         // 1. a ^ b = b ^ a
         // 2. a ^ b ^ c = a ^ (b ^ c) = (a ^ b) ^ c

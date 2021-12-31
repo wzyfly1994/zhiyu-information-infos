@@ -40,15 +40,24 @@ public class TestFlow {
         messageContext.setData("this is data");
 
         //boolean start = flowChain.initContext(flowContext).addFlow(applyService).start(success -> true);
-        RepContext repContext = flowChain.initContext(messageContext).addFlow(applyService).addFlow(processService).start(
-                (callback) -> {
-                    log.info("result+++++" + callback);
-                    return callback;
-                }
-        );
+        // @formatter:off
+        RepContext repContext = flowChain.initContext(messageContext)
+                .addFlow(applyService)
+                .addFlow(processService)
+                .start((callback) -> {
+                            log.info("result+++++" + callback);
+                            return callback;
+                        }
+                );
+        // @formatter:on
+
         System.out.println(repContext);
 
-        HashMap<String,Object> map=new HashMap<>(16);
-        map.put("SS",1);
+
+    }
+
+    public void  keys(FlowChain flowChain){
+
+
     }
 }

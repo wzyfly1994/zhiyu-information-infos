@@ -29,6 +29,10 @@ management:
   endpoint:
     health:
       show-details: always
+  # 关闭ES健康检查
+  health:
+    elasticsearch:
+      enabled: false
 info: {status: ok}
 
 
@@ -125,7 +129,7 @@ es:
 defaultZones:
   http://${EUREKA_USERNAME:user}:${EUREKA_PASSWORD:hYuvXBtGC!aX}@base-register:30001/eureka/
 
-user: 11
+user: 12
 
 test1:
   ${user:331}

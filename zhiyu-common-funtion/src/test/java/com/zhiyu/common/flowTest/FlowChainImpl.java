@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class FlowChainImpl<T> implements FlowChain<T> {
 
-    private List<Flow<?>> flowList = new ArrayList<>(16);
+    private final List<Flow<?>> flowList = new ArrayList<>();
 
     private FlowContext flowContext;
 
