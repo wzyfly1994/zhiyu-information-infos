@@ -15,8 +15,12 @@ import java.util.stream.Stream;
 public class BinaryTest {
 
 
+    static final int MAXIMUM_CAPACITY = 1 << 30;
+
     public static void main(String[] args) {
-        xorTest();
+
+        // xorTest();
+        // bitTest();
     }
 
 
@@ -56,11 +60,21 @@ public class BinaryTest {
 
     private static void bitTest() {
         int num = 15;
-        int location = 2;
+        int location = 16;
         log.info("{} 二进制-->{}", num, Integer.toBinaryString(num));
         log.info("<< {}位值为:{},二进制:{}", location, num << location, Integer.toBinaryString(num << location));
         log.info(">> {}位值为:{},二进制:{}", location, num >> location, Integer.toBinaryString(num >> location));
     }
 
+
+    static final int tableSizeFor(int cap) {
+        int n = cap - 1;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }
 
 }
