@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class ProcessTest {
     public void question1() {
         int[] nums = new int[]{1, 2, 3, 4};
         String numStr = Arrays.toString(twoSum(nums, 7));
-        //String numStr = Arrays.toString(twoSum1(nums, 7));
+        //String numStr = Arrays.toString(twoSumOfficial(nums, 7));
         log.info(numStr);
     }
 
@@ -47,26 +48,27 @@ public class ProcessTest {
      * <p>
      * 输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
      * 输出：[8,9,9,9,0,0,0,1]
+     * <p>
+     * [9]
+     * [1,9,9,9,9,9,9,9,9,9]
      */
     @Test
     public void question2() {
-        int[] l1Arr = new int[]{2, 4, 3};
-        int[] l2Arr = new int[]{5, 6, 4};
-        ListNode l1 = wrapListNode(l1Arr);
-        ListNode l2 = wrapListNode(l2Arr);
+        int[] l1Arr = new int[]{9};
+        int[] l2Arr = new int[]{1, 9, 9, 9, 9, 9, 9, 9, 9, 9};
+        ListNode l1 = wrapListNodes(l1Arr);
+        ListNode l2 = wrapListNodes(l2Arr);
+        System.out.println(l1);
+        System.out.println(l2);
+        //System.out.println(addTwoNumbers(l1, l2));
+        System.out.println(addTwoNumbersOfficial(l1, l2));
 
     }
 
-    private ListNode wrapListNode(int[] array) {
-        if (array.length == 0) {
-            return new ListNode();
-        }
-        ListNode listNode = new ListNode();
-        for (int value : array) {
-            listNode = new ListNode(value, listNode);
-        }
-        return listNode;
-    }
+
+    /**
+     * *************************************************************************************************
+     */
 
     public int[] twoSum(int[] nums, int target) {
         for (int i = 0; i < nums.length; i++) {
@@ -79,7 +81,13 @@ public class ProcessTest {
         return null;
     }
 
-    public int[] twoSum1(int[] nums, int target) {
+    /**
+     * 官方解
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] twoSumOfficial(int[] nums, int target) {
         Map<Integer, Integer> hashtable = new HashMap<Integer, Integer>();
         for (int i = 0; i < nums.length; ++i) {
             if (hashtable.containsKey(target - nums[i])) {
@@ -90,11 +98,110 @@ public class ProcessTest {
         return new int[0];
     }
 
+    /**
+     * *************************************************************************************************
+     */
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int i = l1.getVal() + l2.getVal();
+        BigDecimal var = getNodeVal(l1, "").add(getNodeVal(l2, ""));
+        String strVar = var.toString();
+        int[] arr = new int[strVar.length()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = Integer.parseInt(String.valueOf(strVar.charAt(i)));
+        }
+        System.out.println("arr++" + Arrays.toString(arr));
+        return wrapListNode(arr);
+    }
 
-        return null;
+    /**
+     * 倒序
+     *
+     * @param array
+     * @return
+     */
+    private ListNode wrapListNode(int[] array) {
+        if (array.length == 0) {
+            return new ListNode();
+        }
+        ListNode listNode = null;
+        for (int value : array) {
+            listNode = new ListNode(value, listNode);
+        }
+        return listNode;
+    }
+
+    /**
+     * 正序
+     *
+     * @param array
+     * @return
+     */
+    private ListNode wrapListNodes(int[] array) {
+        if (array.length == 0) {
+            return new ListNode();
+        }
+        ListNode listNode = null;
+        for (int i = array.length - 1; i < array.length && i >= 0; i--) {
+            listNode = new ListNode(array[i], listNode);
+        }
+        return listNode;
+    }
+
+
+    private BigDecimal getNodeVal(ListNode node, String strVal) {
+        if (node.next == null) {
+            return new BigDecimal(node.val + strVal);
+        }
+        strVal = node.val + strVal;
+        return getNodeVal(node.next, strVal);
+    }
+
+
+    /**
+     *
+     * 由于输入的两个链表都是逆序存储数字的位数的，因此两个链表中同一位置的数字可以直接相加。
+     *
+     * 我们同时遍历两个链表，逐位计算它们的和，并与当前位置的进位值相加。具体而言，如果当前两个链表处相应位置的数字为 n1,n2n1,n2，进位值为 \textit{carry}carry，则它们的和为 n1+n2+\textit{carry}n1+n2+carry；其中，答案链表处相应位置的数字为 (n1+n2+\textit{carry}) \bmod 10(n1+n2+carry)mod10，而新的进位值为 \lfloor\frac{n1+n2+\textit{carry}}{10}\rfloor⌊
+     * 10
+     * n1+n2+carry
+     * ​
+     *  ⌋。
+     *
+     * 如果两个链表的长度不同，则可以认为长度短的链表的后面有若干个 00 。
+     *
+     * 此外，如果链表遍历结束后，有 \textit{carry} > 0carry>0，还需要在答案链表的后面附加一个节点，节点的值为 \textit{carry}carry。
+     *
+
+     * 官方解
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbersOfficial(ListNode l1, ListNode l2) {
+        ListNode head = null, tail = null;
+        int carry = 0;
+        while (l1 != null || l2 != null) {
+            int n1 = l1 != null ? l1.val : 0;
+            int n2 = l2 != null ? l2.val : 0;
+            int sum = n1 + n2 + carry;
+            if (head == null) {
+                head = tail = new ListNode(sum % 10);
+            } else {
+                tail.next = new ListNode(sum % 10);
+                tail = tail.next;
+            }
+            carry = sum / 10;
+            if (l1 != null) {
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                l2 = l2.next;
+            }
+        }
+        if (carry > 0) {
+            tail.next = new ListNode(carry);
+        }
+        return head;
     }
 
 
@@ -115,5 +222,9 @@ public class ProcessTest {
             this.next = next;
         }
     }
+
+    /**
+     * *************************************************************************************************
+     */
 
 }
