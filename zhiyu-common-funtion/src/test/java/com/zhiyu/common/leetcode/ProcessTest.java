@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +63,11 @@ public class ProcessTest {
         System.out.println(l2);
         //System.out.println(addTwoNumbers(l1, l2));
         System.out.println(addTwoNumbersOfficial(l1, l2));
+
+        ArrayList<Object> list=new ArrayList<>(16);
+
+        list.add(1);
+
 
     }
 
