@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wengzhiyu
@@ -24,12 +27,14 @@ public class DemoServiceImpl implements DemoService {
     @Autowired
     private SystemRoleService systemRoleService;
 
+    private List<String>  arrList=new ArrayList<>();
+
 
     @Override
     //@Async
-    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRES_NEW)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public void async1() {
-        log.info("runIn----async1-->"+Thread.currentThread().getName());
+        log.info("runIn----async1-->" + Thread.currentThread().getName());
         //saveData("async1");
     }
 
@@ -38,7 +43,7 @@ public class DemoServiceImpl implements DemoService {
     //@Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRES_NEW)
     public Future<String> async2() {
         log.info("333333333333");
-        log.info("runIn----async2-->"+Thread.currentThread().getName());
+        log.info("runIn----async2-->" + Thread.currentThread().getName());
         log.info("111111111111");
         //saveData("async2");
         //int i=1/0;
@@ -49,12 +54,45 @@ public class DemoServiceImpl implements DemoService {
     // @Async
     @Transactional(rollbackFor = Exception.class)
     public void async3() {
-        log.info("runIn----async3-->"+Thread.currentThread().getName());
+        log.info("runIn----async3-->" + Thread.currentThread().getName());
         saveData("async3");
     }
 
+    @Override
+    public String locks() {
+        String threadName = Thread.currentThread().getName();
+        log.info("=======================================================");
+        log.info("=======================================================");
+        log.info("=======================================================");
+        log.info("线程：{}进方法,当前对象：{}", threadName, this);
+        synchronized (this) {
+            log.info("线程：{}进锁", threadName);
+            try {
+                TimeUnit.SECONDS.sleep(6L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.info("线程：{}执行完毕", threadName);
+        }
+        return threadName;
+    }
 
-    private void saveData(String data){
+    @Override
+    public void setList(String meta) {
+        String threadName = Thread.currentThread().getName();
+        log.info("线程：{}进方法,当前对象：{}", threadName, this);
+        arrList.add(meta);
+    }
+
+    @Override
+    public List<String> getList() {
+        String threadName = Thread.currentThread().getName();
+        log.info("线程：{}进方法,当前对象：{}", threadName, this);
+        return arrList;
+    }
+
+
+    private void saveData(String data) {
         SystemRole systemRole = new SystemRole();
         systemRole.setRoleName(data);
         systemRoleService.save(systemRole);

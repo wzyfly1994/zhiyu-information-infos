@@ -34,7 +34,7 @@ public class BinaryTree {
      * |  4     5       |
      * |                |
      * +----------------+
-     *
+     *K
      * @return
      */
     public Node createTreeTemp() {

@@ -15,8 +15,8 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  * @date 2020/11/12
  */
 public class MybatisPlusGenerator {
-    static final String TABLE_NAME = "t_flow_position_relation";
-    static final String MODULE_NAME = "flowpositionrelation";
+    static final String TABLE_NAME = "pu_teamaker_device_record";
+    static final String MODULE_NAME = "puteamakerdeviceRecord";
     static final String AUTHOR = "wengzhiyu";
 
     //修改TABLE_NAME、MODULE_NAME、AUTHOR后运行main方法
@@ -43,7 +43,7 @@ public class MybatisPlusGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         // 改数据库连接
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/heytea_ehr_test?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/wzy?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         // 改账号密码
         dsc.setUsername("root");

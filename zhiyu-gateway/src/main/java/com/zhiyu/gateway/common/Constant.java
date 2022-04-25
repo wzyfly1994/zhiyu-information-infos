@@ -19,6 +19,7 @@ public class Constant {
     public static final String ALL = "all";
     public static final String REQUEST_BODY_CACHE = "requestBodyCache";
     public static final String REQUEST_TIME_CACHE = "requestTimeCache";
+    public static final String HEADER_NAME_TRACE_ID = "X-trace-id";
     public static final List<String> CONTENT_TYPES = Lists.newArrayList("application/json;charset=UTF-8", "text/plain;charset=UTF-8");
     public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
 }

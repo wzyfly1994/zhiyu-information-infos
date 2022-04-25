@@ -1,5 +1,6 @@
 package com.zhiyu.common.service;
 
+import java.util.List;
 import java.util.concurrent.Future;
 
 /**
@@ -13,5 +14,12 @@ public interface DemoService {
     Future<String> async2();
 
     void  async3();
+
+
+    String  locks();
+
+    void setList(String meta);
+
+    List<String> getList();
 
 }
