@@ -1,8 +1,11 @@
 
 package com.zhiyu.common.utils;
 
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author wzy
@@ -35,4 +38,10 @@ public class ListUtils {
         }
         return listArray;
     }
+
+    public static<T> void forEach(Collection<T> list, Consumer<? super T> action){
+        list.forEach(action);
+
+    }
+
 }
