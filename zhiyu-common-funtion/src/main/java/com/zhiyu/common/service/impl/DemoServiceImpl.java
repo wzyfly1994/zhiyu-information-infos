@@ -1,8 +1,11 @@
 package com.zhiyu.common.service.impl;
 
+import com.zhiyu.common.entity.dto.elasticsearch.SearchDocDto;
+import com.zhiyu.common.entity.dto.log.ActionLogDto;
 import com.zhiyu.common.entity.pojo.SystemRole;
 import com.zhiyu.common.service.DemoService;
 import com.zhiyu.common.service.SystemRoleService;
+import com.zhiyu.common.utils.response.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -89,6 +92,12 @@ public class DemoServiceImpl implements DemoService {
         String threadName = Thread.currentThread().getName();
         log.info("线程：{}进方法,当前对象：{}", threadName, this);
         return arrList;
+    }
+
+    @Override
+    public ResponseData recordLog(SearchDocDto searchDocDto) {
+
+        return null;
     }
 
 

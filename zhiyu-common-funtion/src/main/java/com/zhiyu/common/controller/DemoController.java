@@ -1,5 +1,9 @@
 package com.zhiyu.common.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.zhiyu.common.annotation.ActionLog;
+import com.zhiyu.common.entity.dto.elasticsearch.SearchDocDto;
+import com.zhiyu.common.entity.dto.log.ActionLogDto;
 import com.zhiyu.common.feign.PayClient;
 import com.zhiyu.common.service.DemoService;
 import com.zhiyu.common.utils.response.ResponseData;
@@ -85,7 +89,7 @@ public class DemoController {
 
     @GetMapping("/setList/{meta}")
     public void setList(@PathVariable String meta) {
-         demoService.setList(meta);
+        demoService.setList(meta);
     }
 
 
@@ -103,6 +107,14 @@ public class DemoController {
         String value = payClient.testHttp(name);
         log.info("client返回-->{}", value);
         return ResponseData.success(value);
+    }
+
+
+    @PostMapping("/recordLog")
+    @ActionLog(ActionLogDto.class)
+    public ResponseData recordLogs(SearchDocDto searchDocDto) {
+        log.info("recordLog----->{}", JSON.toJSONString(searchDocDto));
+        return demoService.recordLog(searchDocDto);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.zhiyu.common.service;
 
+import com.zhiyu.common.entity.dto.elasticsearch.SearchDocDto;
+import com.zhiyu.common.utils.response.ResponseData;
+
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -21,5 +24,7 @@ public interface DemoService {
     void setList(String meta);
 
     List<String> getList();
+
+    ResponseData  recordLog(SearchDocDto searchDocDto);
 
 }
