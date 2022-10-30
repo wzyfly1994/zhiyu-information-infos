@@ -117,4 +117,10 @@ public class DemoController {
         return demoService.recordLog(searchDocDto);
     }
 
+    @GetMapping ("/testTransactional")
+    public ResponseData testTransactional() {
+        demoService.testTransactionalA();
+        return ResponseData.success();
+    }
+
 }

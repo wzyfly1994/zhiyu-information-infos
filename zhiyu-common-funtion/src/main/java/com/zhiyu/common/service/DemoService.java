@@ -27,4 +27,9 @@ public interface DemoService {
 
     ResponseData  recordLog(SearchDocDto searchDocDto);
 
+
+    void testTransactionalA();
+
+    void testTransactionalB();
+
 }

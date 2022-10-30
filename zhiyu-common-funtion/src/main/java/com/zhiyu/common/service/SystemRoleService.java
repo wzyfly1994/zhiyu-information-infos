@@ -13,4 +13,5 @@ import com.zhiyu.common.entity.pojo.SystemRole;
  */
 public interface SystemRoleService extends IService<SystemRole> {
 
+    void testTransactionalC();
 }

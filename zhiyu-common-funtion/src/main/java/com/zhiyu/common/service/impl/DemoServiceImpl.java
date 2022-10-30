@@ -100,6 +100,27 @@ public class DemoServiceImpl implements DemoService {
         return null;
     }
 
+    @Override
+    // @Transactional(rollbackFor = Exception.class)
+    public void testTransactionalA() {
+        saveData("A");
+        try {
+            // 事务生效
+            systemRoleService.testTransactionalC();
+            // 事务不生效 除非testTransactionalA 开启事务
+            //testTransactionalB();
+        } catch (Exception e) {
+            log.error("插入失败", e);
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void testTransactionalB() {
+        saveData("B");
+        int a = 1 / 0;
+    }
+
 
     private void saveData(String data) {
         SystemRole systemRole = new SystemRole();

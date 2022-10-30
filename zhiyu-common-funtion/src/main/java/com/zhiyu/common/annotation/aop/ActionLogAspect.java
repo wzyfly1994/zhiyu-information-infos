@@ -26,8 +26,8 @@ import java.util.Arrays;
  * @author: wengzhiyu
  * @create: 2022-09-05 21:44
  **/
-@Configuration
-@Aspect
+//@Configuration
+//@Aspect
 @Slf4j
 public class ActionLogAspect {
 
