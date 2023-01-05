@@ -18,17 +18,23 @@ import java.util.Map;
 public class ProcessTest {
 
     /**
+     * 两数之和
      * https://leetcode-cn.com/problems/two-sum/
+     * <p>
+     * 给定一个整数数组 nums和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那两个整数，并返回它们的数组下标。
+     * 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+     * 你可以按任意顺序返回答案。
      */
     @Test
     public void question1() {
         int[] nums = new int[]{1, 2, 3, 4};
-        String numStr = Arrays.toString(twoSum(nums, 7));
-        //String numStr = Arrays.toString(twoSumOfficial(nums, 7));
+        String numStr = Arrays.toString(twoSum(nums, 3));
+        // String numStr = Arrays.toString(twoSumOfficial(nums, 7));
         log.info(numStr);
     }
 
     /**
+     * 两数相加
      * https://leetcode-cn.com/problems/add-two-numbers/
      * 给你两个非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
      * <p>
@@ -61,10 +67,10 @@ public class ProcessTest {
         ListNode l2 = wrapListNodes(l2Arr);
         System.out.println(l1);
         System.out.println(l2);
-        //System.out.println(addTwoNumbers(l1, l2));
-        System.out.println(addTwoNumbersOfficial(l1, l2));
-
-        ArrayList<Object> list=new ArrayList<>(16);
+        System.out.println(addTwoNumbers(l1, l2));
+        // 官方解
+        //System.out.println(addTwoNumbersOfficial(l1, l2));
+        ArrayList<Object> list = new ArrayList<>(16);
 
         list.add(1);
 
@@ -73,6 +79,9 @@ public class ProcessTest {
 
 
     /**
+     * 两数之和
+     * <p>
+     * me
      * *************************************************************************************************
      */
 
@@ -94,7 +103,7 @@ public class ProcessTest {
      * @return
      */
     public int[] twoSumOfficial(int[] nums, int target) {
-        Map<Integer, Integer> hashtable = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> hashtable = new HashMap<>();
         for (int i = 0; i < nums.length; ++i) {
             if (hashtable.containsKey(target - nums[i])) {
                 return new int[]{hashtable.get(target - nums[i]), i};
@@ -104,7 +113,10 @@ public class ProcessTest {
         return new int[0];
     }
 
+
     /**
+     * 两数相加
+     * me
      * *************************************************************************************************
      */
 
