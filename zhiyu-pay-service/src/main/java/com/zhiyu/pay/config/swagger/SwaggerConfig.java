@@ -39,7 +39,7 @@ public class SwaggerConfig {
     public Docket apiDocket() {
 
         // 添加请求头
-       // ParameterBuilder headerPair = new ParameterBuilder();
+        // ParameterBuilder headerPair = new ParameterBuilder();
         List<Parameter> pars = new ArrayList<>();
 //        headerPair.name("Authorization").description("bearer加空格加token，例如：bearer XXX。开放接口(url上带有/open/api/**之类的)不需要此header")
 //                .modelRef(new ModelRef("string"))

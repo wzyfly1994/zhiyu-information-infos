@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 容器启动后
+ *
  * @author wengzhiyu
  * @date 2021/1/12
  */
