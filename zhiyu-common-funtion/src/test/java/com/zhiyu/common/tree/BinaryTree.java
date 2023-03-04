@@ -1,5 +1,8 @@
 package com.zhiyu.common.tree;
 
+import com.alibaba.fastjson.JSON;
+import lombok.Data;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -7,9 +10,11 @@ import java.util.Queue;
  * @author wengzhiyu
  * @since 2022/2/10 17:15
  */
+@Data
 public class BinaryTree {
     public Node tree;  //  树的根节点
 
+    @Data
     public static class Node {
         int data;
         Node left;
@@ -17,24 +22,27 @@ public class BinaryTree {
 
         public Node(int data) {
             this.data = data;
-            this.left = null;
-            this.right = null;
+            //this.left = null;
+            //this.right = null;
         }
     }
 
     /**
      * 创建一棵临时的树
      * +----------------+
-     * |        1       |
-     * |       + +      |
-     * |      +   +     |
-     * |     2     3    |
-     * |    + +         |
-     * |   +   +        |
-     * |  4     5       |
-     * |                |
+     * |              1       |
+     * |          +       +
+     * |        +          +      |
+     * |      +             +     |
+     * |     2               3    |
+     * |    + +             +  +
+     * |   +   +           +     +    |
+     * |  4     5         10     11
+     * | + +   +  +      +  +    +  +  |
+     * |6   7  8  9     12  13  14  15   |
      * +----------------+
-     *K
+     * K
+     *
      * @return
      */
     public Node createTreeTemp() {
@@ -44,11 +52,26 @@ public class BinaryTree {
         tree.left.left = new Node(4);
         tree.left.right = new Node(5);
 
+        tree.left.left.left = new Node(6);
+        tree.left.left.right = new Node(7);
+
+        tree.left.right.left = new Node(8);
+        tree.left.right.right = new Node(9);
+
+        tree.right.left = new Node(10);
+        tree.right.right = new Node(11);
+
+        tree.right.left.left = new Node(12);
+        tree.right.left.right = new Node(13);
+
+        tree.right.right.left = new Node(14);
+        tree.right.right.right = new Node(15);
+
         return tree;
     }
 
     /**
-     * 前序遍历
+     * 前序遍历 根左右
      *
      * @param tree
      */
@@ -57,6 +80,7 @@ public class BinaryTree {
             return;
         }
 
+        // 根节点
         System.out.print(tree.data + "  ");
 
         preOrder(tree.left);
@@ -65,7 +89,7 @@ public class BinaryTree {
     }
 
     /**
-     * 中序遍历
+     * 中序遍历 左根右
      *
      * @param tree
      */
@@ -76,13 +100,14 @@ public class BinaryTree {
 
         inOrder(tree.left);
 
+        // 根节点
         System.out.print(tree.data + "  ");
 
         inOrder(tree.right);
     }
 
     /**
-     * 后序遍历
+     * 后序遍历 左右根
      *
      * @param tree
      */
@@ -95,6 +120,7 @@ public class BinaryTree {
 
         postOrder(tree.right);
 
+        // 根节点
         System.out.print(tree.data + "  ");
     }
 
@@ -145,18 +171,24 @@ public class BinaryTree {
     public static void main(String[] args) {
         BinaryTree bt = new BinaryTree();
         bt.tree = bt.createTreeTemp();
+        System.out.println("树结构：" + JSON.toJSONString(bt.tree));
+        System.out.println("前序遍历：");
         bt.preOrder(bt.tree);
         System.out.println();
 
+        System.out.println("中序遍历：");
         bt.inOrder(bt.tree);
         System.out.println();
 
+        System.out.println("后序遍历：");
         bt.postOrder(bt.tree);
         System.out.println();
 
+        System.out.println("层次遍历：");
         bt.BFSOrder(bt.tree);
         System.out.println();
 
+        System.out.println("树的高度：");
         System.out.println(bt.treeHeight(bt.tree));
 
     }
