@@ -55,6 +55,7 @@
         <xxl-job-core.version>2.3.1-SNAPSHOT</xxl-job-core.version>
         <es-version>7.6.2</es-version>
         <es-spring.version>4.0.9.RELEASE</es-spring.version>
+        <org-apache-commons.version>1.9</org-apache-commons.version>
     </properties>
 
     <dependencyManagement>
@@ -183,21 +184,27 @@
             </dependency>
 
             <!-- Elasticsearch 依赖-->
-<!--            <dependency>-->
-<!--                <groupId>org.elasticsearch</groupId>-->
-<!--                <artifactId>elasticsearch</artifactId>-->
-<!--                <version>${es-version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.elasticsearch.client</groupId>-->
-<!--                <artifactId>elasticsearch-rest-high-level-client</artifactId>-->
-<!--                <version>${es-version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${es-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${es-version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-elasticsearch</artifactId>
                 <version>${es-spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${org-apache-commons.version}</version>
             </dependency>
 
         </dependencies>

@@ -1,5 +1,8 @@
 package com.zhiyu.common.thread;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author wengzhiyu
  * @date 2020/06/12 10:24
  */
+@Slf4j
 public class ThreadPoolFactory {
 
     /**
@@ -22,11 +26,14 @@ public class ThreadPoolFactory {
      */
     private final static int WORK_QUEUE_CAPACITY = 1024;
 
+    private static final ThreadFactory ASYNC_MAIN_THREAD_FACTORY =
+            new ThreadFactoryBuilder().setNameFormat("AsyncThread-%d").build();
+
     /**
      * 生成固定大小的线程池
      *
      * @param corePoolSize 核心线程数
-     * @param threadName 线程名称
+     * @param threadName   线程名称
      * @return 线程池
      */
     public static ExecutorService createFixedThreadPool(int corePoolSize, String threadName) {
@@ -57,5 +64,24 @@ public class ThreadPoolFactory {
                         }
                     }
                 });
+    }
+
+    /**
+     * 核心线程数
+     *
+     * @param corePoolSize
+     * @return ExecutorService
+     */
+    public static ExecutorService createFixedThreadPool(int corePoolSize) {
+        log.info("初始化线程池 核心线程数：{} 最大线程数：{}", corePoolSize, corePoolSize);
+        // @formatter:off
+        return new ThreadPoolExecutor(
+                corePoolSize,
+                corePoolSize ,
+                KEEP_ALIVE_TIME,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(),
+                ASYNC_MAIN_THREAD_FACTORY);
+        // @formatter:on
     }
 }

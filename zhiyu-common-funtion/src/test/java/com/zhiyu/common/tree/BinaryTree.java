@@ -3,6 +3,7 @@ package com.zhiyu.common.tree;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -169,28 +170,77 @@ public class BinaryTree {
     }
 
     public static void main(String[] args) {
-        BinaryTree bt = new BinaryTree();
-        bt.tree = bt.createTreeTemp();
-        System.out.println("树结构：" + JSON.toJSONString(bt.tree));
-        System.out.println("前序遍历：");
-        bt.preOrder(bt.tree);
-        System.out.println();
+        //BinaryTree bt = new BinaryTree();
+        //bt.tree = bt.createTreeTemp();
+        //System.out.println("树结构：" + JSON.toJSONString(bt.tree));
+        //System.out.println("前序遍历：");
+        //bt.preOrder(bt.tree);
+        //System.out.println();
+        //
+        //System.out.println("中序遍历：");
+        //bt.inOrder(bt.tree);
+        //System.out.println();
+        //
+        //System.out.println("后序遍历：");
+        //bt.postOrder(bt.tree);
+        //System.out.println();
+        //
+        //System.out.println("层次遍历：");
+        //bt.BFSOrder(bt.tree);
+        //System.out.println();
+        //
+        //System.out.println("树的高度：");
+        //System.out.println(bt.treeHeight(bt.tree));
 
-        System.out.println("中序遍历：");
-        bt.inOrder(bt.tree);
-        System.out.println();
 
-        System.out.println("后序遍历：");
-        bt.postOrder(bt.tree);
-        System.out.println();
+        int[] arr = new int[]{1, 4, 3, 5, 6, 8, 9};
 
-        System.out.println("层次遍历：");
-        bt.BFSOrder(bt.tree);
-        System.out.println();
+        Arrays.sort(arr);
 
-        System.out.println("树的高度：");
-        System.out.println(bt.treeHeight(bt.tree));
+        System.out.println(Arrays.toString(arr));
+        System.out.println(bsearchWithoutRecursion(arr, 9));
 
+    }
+
+
+    // 二分查找
+    public static int bsearchWithoutRecursion(int[] arr, int target) {
+        if (arr.length == 0) {
+            return -1;
+        }
+        int left = 0;
+        int right = arr.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            System.out.println("left --> " + left);
+            System.out.println("right --> " + right);
+            System.out.println("right - left --> " + (right - left));
+            System.out.println("mid --> " + mid);
+
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+
+    public static int binarySearch(int[] arr, int target, int left, int right) {
+        if (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                return binarySearch(arr, target, mid + 1, right);
+            } else {
+                return binarySearch(arr, target, left, mid - 1);
+            }
+        }
+        return -1;
     }
 
 }
