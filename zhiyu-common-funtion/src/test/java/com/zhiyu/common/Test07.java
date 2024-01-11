@@ -60,6 +60,7 @@ public class Test07 {
 //        System.out.println(lqw.getEntity());
 //        List<SystemRole> list = systemRoleService.list(lqw);
 //        System.out.println(list);
+        String str = "A";
 
         stringRedisTemplate.opsForValue().set("portal:spell:room:initial:null", "123");
 
