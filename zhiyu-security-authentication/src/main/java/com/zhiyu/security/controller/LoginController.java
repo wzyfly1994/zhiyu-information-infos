@@ -1,5 +1,7 @@
 package com.zhiyu.security.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,11 +14,16 @@ import result.ResponseData;
  */
 @RestController
 @RequestMapping("/admin")
+@Slf4j
 public class LoginController {
+
+    @Value("${admin.en}")
+    private String userName1;
 
     @GetMapping("/login")
     public ResponseData login() {
-        return ResponseData.success();
+        log.info("userName:{}", userName1);
+        return ResponseData.success(userName1);
     }
 
 }

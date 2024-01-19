@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      config:
+        namespace: zhiyu
+        refreshEnabled: true
+        server-addr: 127.0.0.1:8848
+        shared-configs:
+          - dataId: config.yaml
+        file-extension: yaml
+      discovery:
+        namespace: zhiyu
+        server-addr: 127.0.0.1:8848
+        loadbalancer:
+
+
+
+
+
+
+
