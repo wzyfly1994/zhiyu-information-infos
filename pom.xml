@@ -19,7 +19,7 @@
         <module>zhiyu-dubbo-consumer</module>
         <module>zhiyu-dubbo-api</module>
         <module>zhiyu-eureka-server</module>
-        <module>zhiyu-security-authentication</module>
+        <module>zhiyu-security-admin</module>
         <module>xxl-job</module>
         <module>zhiyu-information-core</module>
     </modules>

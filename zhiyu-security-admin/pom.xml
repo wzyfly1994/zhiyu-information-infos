@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>zhiyu_security_authentication</groupId>
-    <artifactId>zhiyu-security-authentication</artifactId>
+    <groupId>zhiyu_security_admin</groupId>
+    <artifactId>zhiyu-security-admin</artifactId>
 
     <properties>
         <java.version>1.8</java.version>
@@ -105,6 +105,15 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
 
     </dependencies>
 
