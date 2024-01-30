@@ -66,16 +66,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable() // 禁用 CSRF
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationErrorHandler) // 授权异常
+                .authenticationEntryPoint(authenticationErrorHandler) // 授权异常处理
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/login").permitAll()
                 .antMatchers(getPermitAllUrlsFromAnnotations().toArray(new String[0])).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply()
-
-
+                .apply(new TokenConfigurerAdapter());
     }
 
     @Bean
@@ -89,6 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 
     private List<String> getPermitAllUrlsFromAnnotations() {
         List<String> permitAllUrlList = new ArrayList<>();
