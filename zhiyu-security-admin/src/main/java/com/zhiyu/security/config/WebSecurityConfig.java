@@ -1,10 +1,15 @@
 package com.zhiyu.security.config;
 
+import com.zhiyu.security.config.properties.SecurityProperties;
+import com.zhiyu.security.manager.UserCacheManager;
+import com.zhiyu.security.provider.TokenProvider;
+import com.zhiyu.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,6 +44,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ApplicationContext applicationContext;
 
+    private final SecurityProperties securityProperties;
+
+    private final TokenProvider tokenProvider;
+
+    private final UserService userService;
+
+    private final UserCacheManager userCacheManager;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -71,9 +84,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/login").permitAll()
                 .antMatchers(getPermitAllUrlsFromAnnotations().toArray(new String[0])).permitAll()
+                // 放行OPTIONS请求
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new TokenConfigurerAdapter());
+                .apply(new TokenConfigurerAdapter(securityProperties, tokenProvider, userService, userCacheManager));
     }
 
     @Bean

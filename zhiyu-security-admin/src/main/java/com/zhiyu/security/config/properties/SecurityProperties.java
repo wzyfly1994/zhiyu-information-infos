@@ -1,4 +1,4 @@
-package com.zhiyu.security.config.bean;
+package com.zhiyu.security.config.properties;
 
 import lombok.Data;
 
