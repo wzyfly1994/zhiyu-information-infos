@@ -1,6 +1,4 @@
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -8,15 +6,25 @@ import java.util.List;
 @Data
 public class PositionReportDto {
 
-    private List<Org> orgList;
+    private List<JobCategory> jobCategoryList;
 
 
     @Data
     public static class Org {
 
+        private String id;
+
+        private String number;
+
         private String name = StringUtils.EMPTY;
 
-        private List<JobCategory> jobCategoryList;
+        private String orgName1 = StringUtils.EMPTY;
+
+        private String orgName2 = StringUtils.EMPTY;
+
+        private String orgName3 = StringUtils.EMPTY;
+
+        private String orgName4 = StringUtils.EMPTY;
 
     }
 
@@ -105,6 +113,8 @@ public class PositionReportDto {
         private JobGrade jobGrade;
 
         private Position position;
+
+        private Org org;
 
     }
 
