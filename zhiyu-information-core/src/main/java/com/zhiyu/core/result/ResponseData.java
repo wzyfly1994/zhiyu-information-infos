@@ -1,11 +1,15 @@
-package result;
+package com.zhiyu.core.result;
 
+
+import lombok.Data;
 
 import java.io.IOException;
 
 /**
  * @author wzy
  */
+
+@Data
 public class ResponseData {
 
     private Object data;
@@ -62,27 +66,4 @@ public class ResponseData {
     }
 
 
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    private void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    private void setCode(Integer code) {
-        this.code = code;
-    }
 }

@@ -1,7 +1,8 @@
-package utils;
+package com.zhiyu.core.utils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -14,13 +15,11 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author /
- */
+
 @Component
 @SuppressWarnings({"unchecked", "all"})
+@Slf4j
 public class RedisUtils {
-    private static final Logger log = LoggerFactory.getLogger(RedisUtils.class);
 
     private RedisTemplate<Object, Object> redisTemplate;
 

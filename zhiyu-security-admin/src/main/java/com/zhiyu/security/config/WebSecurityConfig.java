@@ -3,7 +3,7 @@ package com.zhiyu.security.config;
 import com.zhiyu.security.config.properties.SecurityProperties;
 import com.zhiyu.security.manager.UserCacheManager;
 import com.zhiyu.security.provider.TokenProvider;
-import com.zhiyu.security.service.UserService;
+import com.zhiyu.security.service.SystemUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -35,7 +35,7 @@ import java.util.Set;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Slf4j
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
 
-    private final UserService userService;
+    private final SystemUserService systemUserService;
 
     private final UserCacheManager userCacheManager;
 
@@ -88,7 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new TokenConfigurerAdapter(securityProperties, tokenProvider, userService, userCacheManager));
+                .apply(new TokenConfigurerAdapter(securityProperties, tokenProvider, systemUserService, userCacheManager));
     }
 
     @Bean

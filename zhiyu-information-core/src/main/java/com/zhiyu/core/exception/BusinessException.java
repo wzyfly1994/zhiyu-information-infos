@@ -1,7 +1,7 @@
-package exception;
+package com.zhiyu.core.exception;
 
 
-import result.BCErrorCode;
+import com.zhiyu.core.result.BCErrorCode;
 
 /**
  * 自定义异常类
@@ -22,8 +22,8 @@ public class BusinessException extends RuntimeException {
                 '}';
     }
 
-    private Integer code;
-    private String error;
+    private final Integer code;
+    private final String error;
 
     public String getError() {
         return error;

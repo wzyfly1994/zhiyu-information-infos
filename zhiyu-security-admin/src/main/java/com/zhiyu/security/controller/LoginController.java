@@ -1,13 +1,15 @@
 package com.zhiyu.security.controller;
 
+import com.zhiyu.security.entity.dto.AuthUserDto;
+import com.zhiyu.security.service.SystemUserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import result.ResponseData;
+import com.zhiyu.core.result.ResponseData;
 
 import javax.annotation.security.PermitAll;
 
@@ -18,23 +20,21 @@ import javax.annotation.security.PermitAll;
 @RestController
 @RequestMapping("/admin")
 @Slf4j
+@RequiredArgsConstructor
 public class LoginController {
 
-    @Value("${admin.en}")
-    private String userName1;
+    private final SystemUserService systemUserService;
 
     @PostMapping("/login")
-    public ResponseData login() {
-        log.info("userName:{}", userName1);
-        return ResponseData.success(userName1);
+    public ResponseData login(@Validated @RequestBody AuthUserDto authUserDto) {
+        return systemUserService.login(authUserDto);
     }
 
 
     @PostMapping("/logout")
     @PermitAll
     public ResponseData logout() {
-        log.info("userName:{}", userName1);
-        return ResponseData.success(userName1);
+        return ResponseData.success();
     }
 
 }

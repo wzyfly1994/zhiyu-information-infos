@@ -1,3 +1,4 @@
+import javax.servlet.http.Cookie;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -13,5 +14,8 @@ public class Test01 {
 
         System.out.println("原始数据: " + originalData);
         System.out.println("Base64编码后: " + base64Encoded);
+
+        Cookie cookie = new Cookie("myCookie", "cookieValue");
+
     }
 }

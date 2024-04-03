@@ -4,7 +4,7 @@ import com.zhiyu.security.config.properties.SecurityProperties;
 import com.zhiyu.security.filter.TokenFilter;
 import com.zhiyu.security.manager.UserCacheManager;
 import com.zhiyu.security.provider.TokenProvider;
-import com.zhiyu.security.service.UserService;
+import com.zhiyu.security.service.SystemUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,12 +16,12 @@ public class TokenConfigurerAdapter extends SecurityConfigurerAdapter<DefaultSec
 
     private final SecurityProperties securityProperties;
     private final TokenProvider tokenProvider;
-    private final UserService userService;
+    private final SystemUserService systemUserService;
     private final UserCacheManager userCacheManager;
 
     @Override
     public void configure(HttpSecurity http) {
-        TokenFilter customFilter = new TokenFilter(tokenProvider, securityProperties, userService, userCacheManager);
+        TokenFilter customFilter = new TokenFilter(tokenProvider, securityProperties, systemUserService, userCacheManager);
         http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

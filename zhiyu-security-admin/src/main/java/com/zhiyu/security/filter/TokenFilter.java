@@ -1,10 +1,10 @@
 package com.zhiyu.security.filter;
 
 import com.zhiyu.security.config.properties.SecurityProperties;
+import com.zhiyu.security.entity.pojo.SystemUser;
 import com.zhiyu.security.manager.UserCacheManager;
 import com.zhiyu.security.provider.TokenProvider;
-import com.zhiyu.security.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import com.zhiyu.security.service.SystemUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -22,7 +22,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -34,7 +33,7 @@ public class TokenFilter extends GenericFilterBean {
 
     private final TokenProvider tokenProvider;
     private final SecurityProperties properties;
-    private final UserService userService;
+    private final SystemUserService systemUserService;
     private final UserCacheManager userCacheManager;
 
     /**
@@ -43,9 +42,9 @@ public class TokenFilter extends GenericFilterBean {
      * @param userService      用户
      * @param userCacheManager 用户缓存工具
      */
-    public TokenFilter(TokenProvider tokenProvider, SecurityProperties properties, UserService userService, UserCacheManager userCacheManager) {
+    public TokenFilter(TokenProvider tokenProvider, SecurityProperties properties, SystemUserService systemUserService, UserCacheManager userCacheManager) {
         this.properties = properties;
-        this.userService = userService;
+        this.systemUserService = systemUserService;
         this.tokenProvider = tokenProvider;
         this.userCacheManager = userCacheManager;
     }
@@ -53,32 +52,31 @@ public class TokenFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-//        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-//        String token = resolveToken(httpServletRequest);
-//        // 对于 Token 为空的不需要去查 Redis
-//        if (StringUtils.isNotBlank(token)) {
-//            OnlineUserDto onlineUserDto = null;
-//            boolean cleanUserCache = false;
-//            try {
-//                String loginKey = tokenProvider.loginKey(token);
-//                onlineUserDto = onlineUserService.getOne(loginKey);
-//            } catch (ExpiredJwtException e) {
-//                log.error(e.getMessage());
-//                cleanUserCache = true;
-//            } finally {
-//                if (cleanUserCache || Objects.isNull(onlineUserDto)) {
-//                    userCacheManager.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).get(TokenProvider.AUTHORITIES_KEY)));
-//                }
-//            }
-//            if (onlineUserDto != null && StringUtils.hasText(token)) {
-//                Authentication authentication = tokenProvider.getAuthentication(token);
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-//                // Token 续期
-//                tokenProvider.checkRenewal(token);
-//            }
-//        }
-//        filterChain.doFilter(servletRequest, servletResponse);
-
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        String token = resolveToken(httpServletRequest);
+        // 对于 Token 为空的不需要去查 Redis
+        if (StringUtils.isNotBlank(token)) {
+            SystemUser systemUser = null;
+            boolean cleanUserCache = false;
+            try {
+                String loginKey = tokenProvider.loginKey(token);
+                systemUser = systemUserService.getUserByKey(loginKey);
+            } catch (ExpiredJwtException e) {
+                log.error(e.getMessage());
+                cleanUserCache = true;
+            } finally {
+                if (cleanUserCache || Objects.isNull(systemUser)) {
+                    userCacheManager.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).get(TokenProvider.AUTHORITIES_KEY)));
+                }
+            }
+            if (systemUser != null && StringUtils.isNotBlank(token)) {
+                Authentication authentication = tokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Token 续期
+                tokenProvider.checkRenewal(token);
+            }
+        }
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     /**
@@ -98,8 +96,5 @@ public class TokenFilter extends GenericFilterBean {
         return null;
     }
 
-    public static void main(String[] args) {
-   
 
-    }
 }
