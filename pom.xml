@@ -39,12 +39,12 @@
         <commons-pool.version>2.8.0</commons-pool.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-collections4.version>4.1</commons-collections4.version>
-        <fastjson.version>1.2.78</fastjson.version>
+        <fastjson.version>2.0.48</fastjson.version>
         <hutool.version>5.4.5</hutool.version>
         <lombok.version>1.18.10</lombok.version>
         <swagger2.version>2.9.2</swagger2.version>
         <redisson.version>3.16.1</redisson.version>
-        <mybatis.plus.version>3.4.1</mybatis.plus.version>
+        <mybatis.plus.version>3.5.6</mybatis.plus.version>
         <encrypt.version>1.0.1.RELEASE</encrypt.version>
         <guava.version>30.0-jre</guava.version>
         <velocity.version>2.2</velocity.version>
@@ -58,6 +58,7 @@
         <org-apache-commons.version>1.9</org-apache-commons.version>
         <nacos-version>2.2.3.RELEASE</nacos-version>
         <captcha-version>1.6.2</captcha-version>
+        <commons-codec-version>1.15</commons-codec-version>
     </properties>
 
     <dependencyManagement>
@@ -226,6 +227,13 @@
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${captcha-version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec-version}</version>
             </dependency>
 
         </dependencies>

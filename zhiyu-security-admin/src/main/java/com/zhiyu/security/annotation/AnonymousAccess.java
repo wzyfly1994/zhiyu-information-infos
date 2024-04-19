@@ -13,18 +13,17 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.zhiyu.security.entity.dto;
+package com.zhiyu.security.annotation;
 
+import java.lang.annotation.*;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+/**
+ * 用于标记匿名访问方法
+ */
+@Inherited
+@Documented
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AnonymousAccess {
 
-@Getter
-@Setter
-public class UserLoginDto extends UserDto {
-
-    private String password;
-
-    private Boolean isAdmin;
 }

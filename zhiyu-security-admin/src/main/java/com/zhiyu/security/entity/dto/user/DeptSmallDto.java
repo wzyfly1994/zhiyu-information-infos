@@ -13,25 +13,20 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.zhiyu.security.entity.dto;
+package com.zhiyu.security.entity.dto.user;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
-
+/**
+ * @author Zheng Jie
+ * @date 2019-6-10 16:32:18
+ */
 @Data
-public class AuthUserDto {
+public class DeptSmallDto implements Serializable {
 
-    @NotBlank
-    private String username;
+    private Long id;
 
-    @NotBlank
-    private String password;
-
-    private String code;
-
-    private String uuid = "";
+    private String name;
 }

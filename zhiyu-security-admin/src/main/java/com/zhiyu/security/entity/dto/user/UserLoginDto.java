@@ -13,20 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.zhiyu.security.entity.dto;
+package com.zhiyu.security.entity.dto.user;
 
-import lombok.Data;
 
-import java.io.Serializable;
+import com.zhiyu.security.entity.dto.user.UserDto;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * @author Zheng Jie
- * @date 2019-6-10 16:32:18
- */
-@Data
-public class DeptSmallDto implements Serializable {
+@Getter
+@Setter
+public class UserLoginDto extends UserDto {
 
-    private Long id;
+    private String password;
 
-    private String name;
+    private Boolean isAdmin;
 }

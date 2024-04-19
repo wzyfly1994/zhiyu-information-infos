@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
@@ -25,9 +26,6 @@ public class RedisUtils {
 
     public RedisUtils(RedisTemplate<Object, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
-        this.redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        this.redisTemplate.setKeySerializer(new StringRedisSerializer());
-        this.redisTemplate.setStringSerializer(new StringRedisSerializer());
     }
 
     /**

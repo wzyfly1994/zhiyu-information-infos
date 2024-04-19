@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Encryption and Decryption</title>
+</head>
+
+<body>
+
+    <!-- 引入jsencrypt库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.2.1/jsencrypt.min.js"></script>
+
+    <script>
+        // 初始化JSEncrypt对象
+        var encryptor = new JSEncrypt();
+
+        // 公钥和私钥可以替换为你实际生成的RSA密钥对
+        var publicKey = `
+        -----BEGIN PUBLIC KEY-----
+        MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDdOSCyuN4djBZCq+NwC+pJIfDhlrCV11+jAhXpQO6TLbRF3Z3ONW9AXrS9xrtAjF6fh1nLPprj0CCLkcg0CEn+sUHDbMgSYO1WGQt5YMtfXSkgfFEjPuW4Y0Twlnoa28i8cNud9F0HSG4gd55tK+QcNIAl5dbNqFF5D3lBkmpOYQIDAQAB
+        -----END PUBLIC KEY-----
+    `;
+
+        var privateKey = `
+        -----BEGIN RSA PRIVATE KEY-----
+        MIICeQIBADANBgkqhkiG9w0BAQEFAASCAmMwggJfAgEAAoGBAN05ILK43h2MFkKr43AL6kkh8OGWsJXXX6MCFelA7pMttEXdnc41b0BetL3Gu0CMXp+HWcs+muPQIIuRyDQISf6xQcNsyBJg7VYZC3lgy19dKSB8USM+5bhjRPCWehrbyLxw2530XQdIbiB3nm0r5Bw0gCXl1s2oUXkPeUGSak5hAgMBAAECgYEAtxplugfRsFsWwbBL253BGS8ClXWISz2sZtt/D0UzMpaNs5Yu21LW9kxtBPbMXizQ1PHOnK8AvLazeVH8hzSlKKNhqTdiQa6F3MDICQRJOqS36K1ulULBjauouhG09l3gn69V5mJNdkpRdLw0e7rDV4xAKvUWz/yd8l1zM6ACYwECQQD5l2h+8CKVkAebpUwN/ulQOWe6eN1+sHnQsfE/xSMzMhnmw0AaePj/LzeGf1eHw63cdW4WMxa5hFBBZ5uj0ak5AkEA4udAcFQSOTwRAv4daHWqrBnP85dIZ/+N6N8fdP3CZClh69++j3nPPFp+okhVIVi7cTUGzuUaCxIuUfDfGOkWaQJBANWg8IHly9Qz6S8hdk1saAqQd+Y1WW/8YOdtxs4MUCqbsWvApveBn63bnizyhdrgc8mEgWti4wp64653ndHDvJECQQC2kPDFMK/VA2KAsOwCj6J6hO5QBapJm1KYS2apIEBXjQBv5AAUuyKmYf3AH0j34sg2pz7KG4Zf4AoK/i7TgT/5AkEAnf3Kcm8vLZA1V/XER3Ou2jMKot4A/+P+/DBLM8kHKnj97TCmOMIc67mCfdDGMB35JxA5+Tp1jxLhlSVmQ2X0PQ==
+        -----END RSA PRIVATE KEY-----
+    `;
+
+        // 设置公钥和私钥
+        encryptor.setPublicKey(publicKey);
+        var decryptor = new JSEncrypt();
+        decryptor.setPrivateKey(privateKey);
+
+        // 要加密的明文
+        var plaintext = "123456";
+
+        // 使用公钥加密
+        var encrypted = encryptor.encrypt(plaintext);
+        console.log("Encrypted: ", encrypted);
+
+        // 使用私钥解密
+        var decrypted = decryptor.decrypt(encrypted);
+        console.log("Decrypted: ", decrypted);
+    </script>
+</body>
+
+</html>

@@ -18,7 +18,7 @@ package com.zhiyu.security.config.properties;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import com.zhiyu.core.exception.BusinessException;
-import com.zhiyu.security.entity.dto.LoginCodeDto;
+import com.zhiyu.security.entity.dto.user.LoginCodeDto;
 import com.zhiyu.security.enums.LoginCodeEnum;
 import lombok.Data;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class LoginProperties {
     @Getter
     private boolean singleLogin = false;
 
-    private LoginCodeDto loginCodeDto;
+    private LoginCodeDto loginCode;
 
     public static final String cacheKey = "user-login-cache:";
 
@@ -49,13 +49,13 @@ public class LoginProperties {
      * @return /
      */
     public Captcha getCaptcha() {
-        if (Objects.isNull(loginCodeDto)) {
-            loginCodeDto = new LoginCodeDto();
-            if (Objects.isNull(loginCodeDto.getCodeType())) {
-                loginCodeDto.setCodeType(LoginCodeEnum.ARITHMETIC);
+        if (Objects.isNull(loginCode)) {
+            loginCode = new LoginCodeDto();
+            if (Objects.isNull(loginCode.getCodeType())) {
+                loginCode.setCodeType(LoginCodeEnum.ARITHMETIC);
             }
         }
-        return switchCaptcha(loginCodeDto);
+        return switchCaptcha(loginCode);
     }
 
     /**

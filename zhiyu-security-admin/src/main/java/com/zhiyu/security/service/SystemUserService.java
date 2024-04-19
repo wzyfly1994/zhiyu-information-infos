@@ -1,7 +1,8 @@
 package com.zhiyu.security.service;
 
 import com.zhiyu.core.result.ResponseData;
-import com.zhiyu.security.entity.dto.AuthUserDto;
+import com.zhiyu.security.entity.dto.user.AuthUserDto;
+import com.zhiyu.security.entity.dto.user.RegisterUserDto;
 import com.zhiyu.security.entity.pojo.SystemUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,5 +20,9 @@ public interface SystemUserService extends IService<SystemUser> {
     SystemUser getUserByKey(String key);
 
     ResponseData login(AuthUserDto authUserDto);
+
+    ResponseData register(RegisterUserDto registerUserDto);
+
+    ResponseData getCode();
 
 }

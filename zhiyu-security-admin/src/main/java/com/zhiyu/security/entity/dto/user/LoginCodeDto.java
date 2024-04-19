@@ -1,4 +1,4 @@
-package com.zhiyu.security.entity.dto;
+package com.zhiyu.security.entity.dto.user;
 
 import com.zhiyu.security.enums.LoginCodeEnum;
 import lombok.Data;

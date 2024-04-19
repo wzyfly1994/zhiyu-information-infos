@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.zhiyu.security.entity.dto;
+package com.zhiyu.security.entity.dto.user;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.zhiyu.core.base.BaseDTO;

@@ -13,19 +13,24 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.zhiyu.security.entity.dto;
+package com.zhiyu.security.entity.dto.user;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+
+import javax.validation.constraints.NotBlank;
 
 
 @Data
-@NoArgsConstructor
-public class JobSmallDto implements Serializable {
+public class AuthUserDto {
 
-    private Long id;
+    @NotBlank(message = "账号不能为空")
+    private String username;
 
-    private String name;
+    @NotBlank(message = "密码不能为空")
+    private String password;
+
+    private String code;
+
+    private String uuid = "";
 }

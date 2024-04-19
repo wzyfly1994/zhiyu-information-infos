@@ -1,9 +1,11 @@
 package com.zhiyu.security.entity.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
@@ -21,7 +23,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SystemUser implements Serializable {
+public class SystemUser extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -92,6 +94,5 @@ public class SystemUser implements Serializable {
      * 记录时间
      */
     private Date recordDate;
-
 
 }

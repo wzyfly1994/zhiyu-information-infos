@@ -13,20 +13,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.zhiyu.security.entity.dto;
+package com.zhiyu.security.entity.dto.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
-/**
- * 避免序列化问题
- */
+import java.io.Serializable;
+
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class AuthorityDto implements GrantedAuthority {
+public class RoleSmallDto implements Serializable {
 
-    private String authority;
+    private Long id;
+
+    private String name;
+
+    private Integer level;
+
+    private String dataScope;
 }
