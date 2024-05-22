@@ -16,7 +16,6 @@
 package com.zhiyu.security.entity.dto.user;
 
 
-import com.zhiyu.security.entity.dto.user.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 

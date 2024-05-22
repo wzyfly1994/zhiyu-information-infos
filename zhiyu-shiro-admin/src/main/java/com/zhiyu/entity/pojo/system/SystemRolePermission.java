@@ -1,6 +1,7 @@
 package com.zhiyu.entity.pojo.system;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,13 +12,14 @@ import java.io.Serializable;
  * @author wengzhiyu
  * @date 2020/1/10
  */
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Table(name = "system_role_permission")
 @Entity
 @org.hibernate.annotations.Table(appliesTo = "system_role_permission",comment="角色权限映射表")
 @DynamicUpdate
 @DynamicInsert
-public class SystemRolePermission  implements Serializable {
+public class SystemRolePermission extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -7756080639525873726L;
 

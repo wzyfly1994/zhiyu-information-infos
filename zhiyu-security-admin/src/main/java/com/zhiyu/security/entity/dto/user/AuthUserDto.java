@@ -25,7 +25,7 @@ import javax.validation.constraints.NotBlank;
 public class AuthUserDto {
 
     @NotBlank(message = "账号不能为空")
-    private String username;
+    private String account;
 
     @NotBlank(message = "密码不能为空")
     private String password;

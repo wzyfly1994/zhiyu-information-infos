@@ -1,6 +1,7 @@
 package com.zhiyu.entity.pojo.system;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,13 +12,14 @@ import java.io.Serializable;
  * @author wengzhiyu
  * @date 2020/6/10
  */
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Table(name = "system_filter_chain")
 @org.hibernate.annotations.Table(appliesTo = "system_filter_chain",comment="shrio过滤链")
 @Entity
 @DynamicUpdate
 @DynamicInsert
-public class SystemFilterChain implements Serializable {
+public class SystemFilterChain extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -2922251047891088101L;
 
     @Id

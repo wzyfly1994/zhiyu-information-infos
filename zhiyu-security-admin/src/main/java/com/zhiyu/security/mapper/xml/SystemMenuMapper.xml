@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiyu.security.mapper.SystemMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhiyu.security.entity.pojo.SystemMenu">
+        <id column="id" property="id" />
+        <result column="level" property="level" />
+        <result column="menu_name" property="menuName" />
+        <result column="serial_num" property="serialNum" />
+        <result column="parent_id" property="parentId" />
+        <result column="filter_url" property="filterUrl" />
+        <result column="permission_value" property="permissionValue" />
+        <result column="description" property="description" />
+        <result column="image_url" property="imageUrl" />
+        <result column="is_use" property="isUse" />
+        <result column="delete_time" property="deleteTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+        <result column="delete_at" property="deleteAt" />
+        <result column="update_at" property="updateAt" />
+        <result column="create_at" property="createAt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, level, menu_name, serial_num, parent_id, filter_url, permission_value, description, image_url, is_use, delete_time, update_time, create_time, delete_at, update_at, create_at
+    </sql>
+
+</mapper>

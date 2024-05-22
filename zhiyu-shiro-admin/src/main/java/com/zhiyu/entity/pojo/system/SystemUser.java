@@ -1,6 +1,7 @@
 package com.zhiyu.entity.pojo.system;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -12,13 +13,14 @@ import java.util.Date;
  * @author wengzhiyu
  * @date 2020/01/04
  */
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @Table(name = "system_user")
 @org.hibernate.annotations.Table(appliesTo = "system_user",comment="用户表")
 @DynamicUpdate
 @DynamicInsert
-public class SystemUser  implements Serializable {
+public class SystemUser extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 8062449516584938156L;
 
@@ -62,6 +64,7 @@ public class SystemUser  implements Serializable {
     @Column(columnDefinition = " smallint(5) comment '最大登录数'")
     private Integer maxSession;
 
-    @Column(columnDefinition = " timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录时间'")
-    private Date recordDate;
+    @Column(columnDefinition = " tinyint(1) comment '是否有效,1有效，0无效'")
+    private Boolean isUse;
+
 }

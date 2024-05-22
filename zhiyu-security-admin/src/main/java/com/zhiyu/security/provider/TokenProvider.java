@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.core.date.DateUtil;
+import com.zhiyu.core.exception.BusinessException;
 import com.zhiyu.core.utils.RedisUtils;
 import com.zhiyu.security.config.properties.SecurityProperties;
 import io.jsonwebtoken.*;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import io.jsonwebtoken.security.SignatureException;
 
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +36,7 @@ public class TokenProvider implements InitializingBean {
     /**
      * 加密算法
      */
-    private final static SecureDigestAlgorithm<SecretKey, SecretKey> ALGORITHM = Jwts.SIG.HS256;
+    private final static SecureDigestAlgorithm<SecretKey, SecretKey> ALGORITHM = Jwts.SIG.HS512;
 
     public TokenProvider(SecurityProperties properties, RedisUtils redisUtils) {
         this.properties = properties;
@@ -45,7 +47,7 @@ public class TokenProvider implements InitializingBean {
     public void afterPropertiesSet() {
         byte[] keyBytes = Decoders.BASE64.decode(properties.getBase64Secret());
         SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-        jwtParser = Jwts.parser().decryptWith(key).build();
+        jwtParser = Jwts.parser().verifyWith(key).build();
         jwtBuilder = Jwts.builder().signWith(key, ALGORITHM);
     }
 
@@ -78,7 +80,27 @@ public class TokenProvider implements InitializingBean {
     }
 
     public Claims getClaims(String token) {
-        return jwtParser.parseSignedClaims(token).getPayload();
+        try {
+            return jwtParser.parseSignedClaims(token).getPayload();
+        } catch (ExpiredJwtException e) {
+            log.error("token已过期，请重新登录 -> ", e);
+            throw new BusinessException("token已过期，请重新登录");
+        } catch (UnsupportedJwtException e) {
+            log.error("token信息不能被解析，请重新登录 -> ", e);
+            throw new BusinessException("token信息不能被解析，请重新登录");
+        } catch (MalformedJwtException e) {
+            log.error("token格式错误，请重新登录 -> ", e);
+            throw new BusinessException("token格式错误，请重新登录");
+        } catch (SignatureException e) {
+            log.error("token签名错误，请重新登录 -> ", e);
+            throw new BusinessException("token签名错误，请重新登录");
+        } catch (IllegalArgumentException e) {
+            log.error("token为空，请重新登录 -> ", e);
+            throw new BusinessException("token为空，请重新登录");
+        } catch (Exception e) {
+            log.error("token解析异常 -> ", e);
+            throw new BusinessException("token解析异常");
+        }
     }
 
     /**

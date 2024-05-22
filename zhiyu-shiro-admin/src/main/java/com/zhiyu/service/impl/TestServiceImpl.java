@@ -30,7 +30,6 @@ public class TestServiceImpl implements TestService {
     //@Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS)
     public void roleSave() {
         SystemRole systemRole = new SystemRole();
-        systemRole.setDepId(1L);
         systemRole.setRoleName("角色1");
         systemRoleRepository.save(systemRole);
         dictionaryService.permissionSave();

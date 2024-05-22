@@ -65,7 +65,6 @@ public class SystemRoleServiceImpl implements SystemRoleService {
         if (optionalSystemRole.isPresent()) {
             SystemRole systemRole = optionalSystemRole.get();
             BeanUtils.copyProperties(systemRoleDto, systemRole);
-            systemRole.setRecordDate(new Date());
             List<Long> menuIdList = systemRoleDto.getMenuIdList();
             if (!CollectionUtils.isEmpty(menuIdList)) {
                 systemRolePermissionRepository.deleteByRoleIdIn(menuIdList);

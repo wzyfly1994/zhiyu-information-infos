@@ -17,6 +17,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.cors.CorsConfiguration;
@@ -54,9 +56,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
+        // 密码加密方式
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        // 去除 角色ROLE_ 前缀
+        return new GrantedAuthorityDefaults("");
+    }
 
     /**
      * 用于配置认证管理器，指定用户存储的方式和密码加密方式。
@@ -82,14 +90,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 获取匿名标记
         Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
 
-        http.cors() // 跨域
+        http.cors()
+                // 防止iframe 造成跨域
                 .and()
-                .csrf().disable() // 禁用 CSRF
+                .headers()
+                .frameOptions()
+                .disable()
+                .and()
+                // 禁用 CSRF
+                .csrf().disable()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationErrorHandler) // 授权异常处理
+                // 授权异常处理
+                .authenticationEntryPoint(authenticationErrorHandler)
+                // 因为使用了JWT，所以这里不管理Session
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/login").permitAll()
+                // 放行 PermitAll标记的接口
                 .antMatchers(getPermitAllUrlsFromAnnotations().toArray(new String[0])).permitAll()
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -193,4 +212,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
         return anonymousUrls;
     }
+
+
 }

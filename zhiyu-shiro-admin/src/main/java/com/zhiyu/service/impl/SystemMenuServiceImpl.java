@@ -70,7 +70,6 @@ public class SystemMenuServiceImpl implements SystemMenuService {
             SystemPermission systemPermissionUpdate = systemPermissionList.get(0);
             systemPermissionUpdate.setDescription(systemMenu.getDescription());
             systemPermissionUpdate.setPermissionName(systemMenu.getMenuName());
-            systemPermissionUpdate.setRecordDate(new Date());
         } else {
             BeanUtils.copyProperties(menuDto, systemMenu);
             systemMenu.setCreateTime(new Date());

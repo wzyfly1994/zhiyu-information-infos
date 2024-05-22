@@ -82,7 +82,6 @@ public class Test01 {
 
     public void a() {
         SystemRole systemRole = new SystemRole();
-        systemRole.setDepId(1L);
         systemRole.setRoleName("角色1");
         systemRoleRepository.save(systemRole);
         throw new BusinessException("33");

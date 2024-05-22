@@ -2,6 +2,7 @@ package com.zhiyu.security.controller;
 
 import com.zhiyu.core.result.ResponseData;
 import com.zhiyu.security.annotation.rest.AnonymousGetMapping;
+import com.zhiyu.security.annotation.rest.AnonymousPostMapping;
 import com.zhiyu.security.entity.dto.user.AuthUserDto;
 import com.zhiyu.security.entity.dto.user.RegisterUserDto;
 import com.zhiyu.security.service.SystemUserService;
@@ -9,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
@@ -30,8 +32,8 @@ public class LoginController {
 
     private final SystemUserService systemUserService;
 
-    @PostMapping("/login")
-    @PermitAll
+    @AnonymousPostMapping("/login")
+    // @PermitAll
     @ApiOperation("登录")
     public ResponseData login(@Valid @RequestBody AuthUserDto authUserDto) {
         return systemUserService.login(authUserDto);
@@ -62,12 +64,10 @@ public class LoginController {
 
 
     @AnonymousGetMapping("/test")
+    @PreAuthorize("@el.check()")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            response.sendRedirect("https://www.baidu.com/");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        log.info("1111");
+
     }
 
 }

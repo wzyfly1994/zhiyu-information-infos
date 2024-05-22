@@ -1,6 +1,8 @@
 package com.zhiyu.entity.pojo.dictionary;
 
+import com.zhiyu.entity.pojo.system.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +13,11 @@ import javax.persistence.Table;
  * @author wengzhiyu
  * @date 2019/10/22
  */
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @Table(name = "column_domains")
-public class ColumnDomain {
+public class ColumnDomain extends BaseEntity {
 
     @Id
     @Column(columnDefinition = " varchar(64) comment '字典名称'")

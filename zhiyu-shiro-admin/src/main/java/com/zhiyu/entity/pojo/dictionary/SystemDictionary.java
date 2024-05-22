@@ -1,7 +1,9 @@
 package com.zhiyu.entity.pojo.dictionary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zhiyu.entity.pojo.system.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -9,10 +11,11 @@ import javax.persistence.*;
  * @author wengzhiyu
  * @date 2019/10/22
  */
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @Table(name = "system_dictionary")
-public class SystemDictionary {
+public class SystemDictionary extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +36,6 @@ public class SystemDictionary {
     @Column(columnDefinition = " varchar(64) comment '字典值'")
     private String dicTypeValue;
 
-    @JsonIgnore
     @Column(columnDefinition = " tinyint(1) comment '是否可用'")
     private Boolean isUse;
 

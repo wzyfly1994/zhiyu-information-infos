@@ -7,6 +7,7 @@ import com.zhiyu.config.constant.Constants;
 import com.zhiyu.entity.pojo.system.SystemUser;
 import com.zhiyu.entity.vo.CommonDataVo;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
+
+import static cn.hutool.crypto.asymmetric.KeyType.SecretKey;
 
 
 /**
@@ -54,7 +57,9 @@ public class JwtUtil {
         boolean code = true;
         String msg = "";
         try {
-            Jwts.parser().setSigningKey(Constants.JWT_SECRET_KEY).parseClaimsJws(token).getBody();
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(Constants.JWT_SECRET_KEY.getBytes())).build()
+                    .parseSignedClaims(token)
+                    .getPayload();
         } catch (ExpiredJwtException e) {
             // token已过期
             code = false;
@@ -84,7 +89,9 @@ public class JwtUtil {
     public static Claims getClaims(String token) {
         Claims claims;
         try {
-            claims = Jwts.parser().setSigningKey(Constants.JWT_SECRET_KEY).parseClaimsJws(token).getBody();
+            claims = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(Constants.JWT_SECRET_KEY.getBytes())).build()
+                    .parseSignedClaims(token)
+                    .getPayload();
         } catch (Exception e) {
             // token错误
             log.info("token解析失败:原因:[{}]", e.getMessage());

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiyu.security.mapper.SystemDepartmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zhiyu.security.entity.pojo.SystemDepartment">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="parent_id" property="parentId" />
+        <result column="seq" property="seq" />
+        <result column="description" property="description" />
+        <result column="code" property="code" />
+        <result column="is_use" property="isUse" />
+        <result column="delete_time" property="deleteTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+        <result column="delete_at" property="deleteAt" />
+        <result column="update_at" property="updateAt" />
+        <result column="create_at" property="createAt" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, parent_id, seq, description, code, is_use, delete_time, update_time, create_time, delete_at, update_at, create_at
+    </sql>
+
+</mapper>

@@ -4,25 +4,31 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.zhiyu.security.entity.pojo.SystemUser">
-        <id column="id" property="id"/>
-        <result column="account" property="account"/>
-        <result column="pass_word" property="passWord"/>
-        <result column="user_name" property="userName"/>
-        <result column="head_img" property="headImg"/>
-        <result column="sex" property="sex"/>
-        <result column="email" property="email"/>
-        <result column="phone" property="phone"/>
-        <result column="dept_id" property="deptId"/>
-        <result column="is_activated" property="isActivated"/>
-        <result column="is_locked" property="isLocked"/>
-        <result column="is_delete" property="isDelete"/>
-        <result column="max_session" property="maxSession"/>
-        <result column="record_date" property="recordDate"/>
+        <id column="id" property="id" />
+        <result column="account" property="account" />
+        <result column="pass_word" property="passWord" />
+        <result column="user_name" property="userName" />
+        <result column="head_img" property="headImg" />
+        <result column="sex" property="sex" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="dept_id" property="deptId" />
+        <result column="is_activated" property="isActivated" />
+        <result column="is_locked" property="isLocked" />
+        <result column="is_delete" property="isDelete" />
+        <result column="max_session" property="maxSession" />
+        <result column="is_use" property="isUse" />
+        <result column="delete_time" property="deleteTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
+        <result column="delete_at" property="deleteAt" />
+        <result column="update_at" property="updateAt" />
+        <result column="create_at" property="createAt" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, account, pass_word, user_name, head_img, sex, email, phone, dept_id, is_activated, is_locked, is_delete, max_session, record_date
+        id, account, pass_word, user_name, head_img, sex, email, phone, dept_id, is_activated, is_locked, is_delete, max_session, is_use, delete_time, update_time, create_time, delete_at, update_at, create_at
     </sql>
 
 </mapper>

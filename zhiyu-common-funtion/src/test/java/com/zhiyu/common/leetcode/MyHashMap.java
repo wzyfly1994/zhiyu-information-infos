@@ -1,5 +1,6 @@
 package com.zhiyu.common.leetcode;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -90,21 +91,22 @@ public class MyHashMap {
     }
 
     public static void main(String[] args) {
-//        HashMap map = new HashMap<>(6);
-//        map.put("1", "1");
-//        map.get("1");
+        HashMap map = new HashMap<>();
+        map.put("1", "1");
+        map.get("1");
 
-        MyHashMap myHashMap = new MyHashMap();
-        myHashMap.put(1, 13);
-        myHashMap.put(1, 6);
+//        MyHashMap myHashMap = new MyHashMap();
+//        myHashMap.put(1, 13);
+//        myHashMap.put(1, 6);
 //        myHashMap.put(6, 15);
 //        myHashMap.put(8, 8);
 //        myHashMap.put(11, 0);
         // myHashMap.put(1, 3);
         // myHashMap.remove(1);
         // myHashMap.put(2, 4);
-        System.out.printf(String.valueOf(myHashMap.get(1)) + "%n");
+        // System.out.printf(String.valueOf(myHashMap.get(1)) + "%n");
         //System.out.printf(String.valueOf(myHashMap.get(2)));
 
+        //    System.out.printf(String.valueOf(-5 % 5));
     }
 }
