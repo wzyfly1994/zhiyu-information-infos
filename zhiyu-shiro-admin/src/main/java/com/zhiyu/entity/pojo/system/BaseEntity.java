@@ -20,7 +20,7 @@ public class BaseEntity {
     @Column(columnDefinition = " bigint null  comment '删除人'")
     private Long deleteAt;
 
-    @Column(columnDefinition = " timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '创建时间'")
+    @Column(columnDefinition = " timestamp default CURRENT_TIMESTAMP not null comment '创建时间'")
     private Date createTime;
 
     @Column(columnDefinition = " timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间'")
