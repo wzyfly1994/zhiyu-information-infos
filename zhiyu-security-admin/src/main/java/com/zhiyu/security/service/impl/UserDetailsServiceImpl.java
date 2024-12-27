@@ -17,34 +17,62 @@ package com.zhiyu.security.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zhiyu.core.exception.BusinessException;
+import com.zhiyu.core.utils.CloneUtils;
 import com.zhiyu.security.entity.dto.user.JwtUserDto;
 import com.zhiyu.security.entity.dto.user.UserLoginDto;
-import com.zhiyu.security.entity.pojo.SystemUser;
+import com.zhiyu.security.entity.dto.user.UserRoleDto;
+import com.zhiyu.security.entity.pojo.Role;
+import com.zhiyu.security.entity.pojo.User;
 import com.zhiyu.security.manager.UserCacheManager;
-import com.zhiyu.security.service.SystemUserService;
+import com.zhiyu.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 @RequiredArgsConstructor
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final SystemUserService systemUserService;
+
+    private final UserService userService;
     private final UserCacheManager userCacheManager;
+    private final MenuServiceImpl menuService;
+    private final RoleServiceImpl roleService;
+
 
     @Override
     public JwtUserDto loadUserByUsername(String username) {
 
         JwtUserDto jwtUserDto = userCacheManager.getUserCache(username);
         if (jwtUserDto == null) {
-            SystemUser systemUser = systemUserService.getOne(new LambdaQueryWrapper<SystemUser>().eq(SystemUser::getAccount, username),
+            User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getAccount, username),
                     false);
-            if (systemUser == null) {
+            if (user == null) {
                 throw new BusinessException("账户不存在");
             }
+
+            // 用户权限
+            Set<String> userPermissions = menuService.getMenuPermissionByUserId(user);
+
+            UserLoginDto userLoginDto = CloneUtils.shallowClone(user, UserLoginDto.class);
+
+            //用户角色
+            List<Role> userRoles = roleService.getUserRolesByUserId(user.getId());
+            if (CollectionUtils.isNotEmpty(userRoles)) {
+                List<UserRoleDto> userRolesDto = userRoles.stream()
+                        .map(userRole -> CloneUtils.shallowClone(userRole, UserRoleDto.class))
+                        .collect(Collectors.toList());
+                userLoginDto.setRoles(userRolesDto);
+            }
+
+            jwtUserDto = new JwtUserDto(userLoginDto, userLoginDto.getId(), userPermissions, userLoginDto.getDeptId());
 
             //  添加缓存数据
             userCacheManager.addUserCache(username, jwtUserDto);

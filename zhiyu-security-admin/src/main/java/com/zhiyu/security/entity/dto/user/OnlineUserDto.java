@@ -37,10 +37,6 @@ public class OnlineUserDto {
      */
     private String nickName;
 
-    /**
-     * 岗位
-     */
-    private String dept;
 
     /**
      * 浏览器

@@ -3,9 +3,7 @@ package com.zhiyu.common.tree;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author wengzhiyu
@@ -170,27 +168,27 @@ public class BinaryTree {
     }
 
     public static void main(String[] args) {
-        //BinaryTree bt = new BinaryTree();
-        //bt.tree = bt.createTreeTemp();
-        //System.out.println("树结构：" + JSON.toJSONString(bt.tree));
-        //System.out.println("前序遍历：");
-        //bt.preOrder(bt.tree);
-        //System.out.println();
-        //
-        //System.out.println("中序遍历：");
-        //bt.inOrder(bt.tree);
-        //System.out.println();
-        //
-        //System.out.println("后序遍历：");
-        //bt.postOrder(bt.tree);
-        //System.out.println();
-        //
-        //System.out.println("层次遍历：");
-        //bt.BFSOrder(bt.tree);
-        //System.out.println();
-        //
-        //System.out.println("树的高度：");
-        //System.out.println(bt.treeHeight(bt.tree));
+        BinaryTree bt = new BinaryTree();
+        bt.tree = bt.createTreeTemp();
+        System.out.println("树结构：" + JSON.toJSONString(bt.tree));
+        System.out.println("前序遍历：");
+        bt.preOrder(bt.tree);
+        System.out.println();
+
+        System.out.println("中序遍历：");
+        bt.inOrder(bt.tree);
+        System.out.println();
+
+        System.out.println("后序遍历：");
+        bt.postOrder(bt.tree);
+        System.out.println();
+
+        System.out.println("层次遍历：");
+        bt.BFSOrder(bt.tree);
+        System.out.println();
+
+        System.out.println("树的高度：");
+        System.out.println(bt.treeHeight(bt.tree));
 
 
         int[] arr = new int[]{1, 4, 3, 5, 6, 8, 9};
@@ -199,6 +197,8 @@ public class BinaryTree {
 
         System.out.println(Arrays.toString(arr));
         System.out.println(bsearchWithoutRecursion(arr, 9));
+
+
 
     }
 

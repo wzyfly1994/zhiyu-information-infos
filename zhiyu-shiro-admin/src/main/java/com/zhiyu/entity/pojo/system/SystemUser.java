@@ -52,6 +52,9 @@ public class SystemUser extends BaseEntity implements Serializable {
     @Column(columnDefinition = " bigint(20) comment '组织id'")
     private Long deptId;
 
+    @Column(columnDefinition = " tinyint(1) default 0 not null comment '是否超级管理员'")
+    private Boolean isAdmin;
+
     @Column(columnDefinition = " tinyint(1) comment '是否启用，1：启用，0：禁用'")
     private Boolean isActivated;
 

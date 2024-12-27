@@ -1,6 +1,7 @@
 import javax.servlet.http.Cookie;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class Test01 {
 
@@ -16,6 +17,14 @@ public class Test01 {
         System.out.println("Base64编码后: " + base64Encoded);
 
         Cookie cookie = new Cookie("myCookie", "cookieValue");
+
+        List<String> list1 = new ArrayList<>();
+        list1.add("A");
+
+
+        List<String> list2 = new ArrayList<>(list1);
+        list2.add("B");
+        System.out.println(list1);
 
     }
 }

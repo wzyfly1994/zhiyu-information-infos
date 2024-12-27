@@ -5,19 +5,21 @@ import com.zhiyu.security.annotation.rest.AnonymousGetMapping;
 import com.zhiyu.security.annotation.rest.AnonymousPostMapping;
 import com.zhiyu.security.entity.dto.user.AuthUserDto;
 import com.zhiyu.security.entity.dto.user.RegisterUserDto;
-import com.zhiyu.security.service.SystemUserService;
+import com.zhiyu.security.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 
 /**
  * @author wengzhiyu
@@ -30,13 +32,14 @@ import java.io.IOException;
 @Api(tags = "授权模块")
 public class LoginController {
 
-    private final SystemUserService systemUserService;
+
+    private final UserService userService;
 
     @AnonymousPostMapping("/login")
     // @PermitAll
     @ApiOperation("登录")
     public ResponseData login(@Valid @RequestBody AuthUserDto authUserDto) {
-        return systemUserService.login(authUserDto);
+        return userService.login(authUserDto);
     }
 
 
@@ -52,14 +55,14 @@ public class LoginController {
     @PermitAll
     @ApiOperation("注册")
     public ResponseData register(@Valid @RequestBody RegisterUserDto registerUserDto) {
-        return systemUserService.register(registerUserDto);
+        return userService.register(registerUserDto);
     }
 
 
     @ApiOperation("获取验证码")
     @AnonymousGetMapping("getCode")
     public ResponseData getCode() {
-        return systemUserService.getCode();
+        return userService.getCode();
     }
 
 

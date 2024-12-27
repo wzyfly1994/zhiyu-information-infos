@@ -2,11 +2,9 @@ package com.zhiyu.security.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zhiyu.core.exception.BusinessException;
-import com.zhiyu.core.utils.PasswordUtils;
 import com.zhiyu.core.utils.RsaUtils;
-import com.zhiyu.security.entity.dto.user.JwtUserDto;
-import com.zhiyu.security.entity.pojo.SystemUser;
-import com.zhiyu.security.service.SystemUserService;
+import com.zhiyu.security.entity.pojo.User;
+import com.zhiyu.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,7 +23,7 @@ import java.util.Objects;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
-    private final SystemUserService systemUserService;
+    private final UserService userService;
 
     private final UserDetailsService userDetailsService;
 
@@ -40,9 +38,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        SystemUser systemUser = systemUserService.getOne(new LambdaQueryWrapper<SystemUser>()
-                .eq(SystemUser::getAccount, username), false);
-        if (Objects.isNull(systemUser)) {
+        User user = userService.getOne(new LambdaQueryWrapper<User>()
+                .eq(User::getAccount, username), false);
+        if (Objects.isNull(user)) {
             throw new BusinessException("用户不存在");
         }
 
@@ -57,7 +55,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 使用自定义密码解密
         // boolean matches = PasswordUtils.verifyPassword(pwdSource, systemUser.getPassWord());
         // 使用security加密
-        boolean matches = passwordEncoder.matches(pwdSource, systemUser.getPassWord());
+        boolean matches = passwordEncoder.matches(pwdSource, user.getPassWord());
 
         if (matches) {
             // 如果认证成功，返回一个经过认证的Authentication对象

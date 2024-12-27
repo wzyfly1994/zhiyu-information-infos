@@ -5,21 +5,25 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 import net.dreamlu.mica.ip2region.core.IpInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @Slf4j
+@Component
 public class CustomUtils {
 
-    private static final char SEPARATOR = '_';
     private static final String UNKNOWN = "unknown";
 
-    /**
-     * 注入bean
-     */
-    private final static Ip2regionSearcher IP_SEARCHER = SpringContextUtil.getBean(Ip2regionSearcher.class);
+    public static Ip2regionSearcher IP_SEARCHER;
+
+    @Autowired
+    public void setIp2regionSearcher(Ip2regionSearcher ip2regionSearcher) {
+        IP_SEARCHER = ip2regionSearcher;
+    }
 
     /**
      * 获取ip地址

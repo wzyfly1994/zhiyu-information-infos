@@ -1,10 +1,10 @@
 package com.zhiyu.security.filter;
 
 import com.zhiyu.security.config.properties.SecurityProperties;
-import com.zhiyu.security.entity.pojo.SystemUser;
+import com.zhiyu.security.entity.pojo.User;
 import com.zhiyu.security.manager.UserCacheManager;
 import com.zhiyu.security.provider.TokenProvider;
-import com.zhiyu.security.service.SystemUserService;
+import com.zhiyu.security.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -33,7 +33,7 @@ public class TokenFilter extends GenericFilterBean {
 
     private final TokenProvider tokenProvider;
     private final SecurityProperties properties;
-    private final SystemUserService systemUserService;
+    private final UserService userService;
     private final UserCacheManager userCacheManager;
 
     /**
@@ -42,9 +42,9 @@ public class TokenFilter extends GenericFilterBean {
      * @param userService      用户
      * @param userCacheManager 用户缓存工具
      */
-    public TokenFilter(TokenProvider tokenProvider, SecurityProperties properties, SystemUserService systemUserService, UserCacheManager userCacheManager) {
+    public TokenFilter(TokenProvider tokenProvider, SecurityProperties properties, UserService userService, UserCacheManager userCacheManager) {
         this.properties = properties;
-        this.systemUserService = systemUserService;
+        this.userService = userService;
         this.tokenProvider = tokenProvider;
         this.userCacheManager = userCacheManager;
     }
@@ -56,20 +56,20 @@ public class TokenFilter extends GenericFilterBean {
         String token = resolveToken(httpServletRequest);
         // 对于 Token 为空的不需要去查 Redis
         if (StringUtils.isNotBlank(token)) {
-            SystemUser systemUser = null;
+            User user = null;
             boolean cleanUserCache = false;
             try {
                 String loginKey = tokenProvider.loginKey(token);
-                systemUser = systemUserService.getUserByKey(loginKey);
+                user = userService.getUserByKey(loginKey);
             } catch (ExpiredJwtException e) {
                 log.error(e.getMessage());
                 cleanUserCache = true;
             } finally {
-                if (cleanUserCache || Objects.isNull(systemUser)) {
+                if (cleanUserCache || Objects.isNull(user)) {
                     userCacheManager.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).get(TokenProvider.AUTHORITIES_KEY)));
                 }
             }
-            if (systemUser != null && StringUtils.isNotBlank(token)) {
+            if (user != null && StringUtils.isNotBlank(token)) {
                 Authentication authentication = tokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 // Token 续期

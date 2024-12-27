@@ -1,15 +1,20 @@
 package com.zhiyu.security.manager;
 
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.zhiyu.core.utils.CloneUtils;
 import com.zhiyu.core.utils.RedisUtils;
 import com.zhiyu.security.config.properties.LoginProperties;
 import com.zhiyu.security.entity.dto.user.JwtUserDto;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 
+@Slf4j
 @Component
 public class UserCacheManager {
 
@@ -32,7 +37,7 @@ public class UserCacheManager {
             // 获取数据
             Object obj = redisUtils.get(LoginProperties.cacheKey + userName);
             if (obj != null) {
-                return (JwtUserDto) obj;
+                return JSON.parseObject(obj.toString(), new TypeReference<JwtUserDto>(){});
             }
         }
         return null;
@@ -48,7 +53,7 @@ public class UserCacheManager {
         if (StringUtils.isNotEmpty(userName)) {
             // 添加数据, 避免数据同时过期
             long time = idleTime + RandomUtil.randomInt(900, 1800);
-            redisUtils.set(LoginProperties.cacheKey + userName, user, time);
+            redisUtils.set(LoginProperties.cacheKey + userName, JSON.toJSONString(user), time);
         }
     }
 

@@ -5,7 +5,7 @@ import com.zhiyu.security.config.properties.SecurityProperties;
 import com.zhiyu.security.enums.RequestMethodEnum;
 import com.zhiyu.security.manager.UserCacheManager;
 import com.zhiyu.security.provider.TokenProvider;
-import com.zhiyu.security.service.SystemUserService;
+import com.zhiyu.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
 
-    private final SystemUserService systemUserService;
+    private final UserService userService;
 
     private final UserCacheManager userCacheManager;
 
@@ -130,7 +130,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 所有请求都需要认证
                 .anyRequest().authenticated()
                 .and()
-                .apply(new TokenConfigurerAdapter(securityProperties, tokenProvider, systemUserService, userCacheManager));
+                .apply(new TokenConfigurerAdapter(securityProperties, tokenProvider, userService, userCacheManager));
     }
 
     @Bean

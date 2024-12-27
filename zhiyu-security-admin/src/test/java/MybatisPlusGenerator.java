@@ -17,8 +17,8 @@ import java.util.Collections;
  * @date 2020/11/12
  */
 public class MybatisPlusGenerator {
-    static final String TABLE_NAME = "system_user,system_department,system_role,system_menu,system_user_role,system_role_menu";
-    static final String MODULE_NAME = "dept";
+    static final String TABLE_NAME = "user,department,role,menu,role_menu,user_role";
+    static final String MODULE_NAME = "user";
     static final String AUTHOR = "Jason";
 
     //修改TABLE_NAME、MODULE_NAME、AUTHOR后运行main方法

@@ -5,12 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhiyu.gateway.common.BusinessException;
 import com.zhiyu.gateway.common.Constant;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
-
 
 
 /**
@@ -47,10 +47,9 @@ public class TokenUtils {
         String token = authorization.substring(Constant.BEARER.length());
         Claims claims;
         try {
-            claims = Jwts.parser()
-                    .setSigningKey(jwtSigningKey)
-                    .parseClaimsJws(token)
-                    .getBody();
+            claims = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(jwtSigningKey.getBytes())).build()
+                    .parseSignedClaims(token)
+                    .getPayload();
         } catch (ExpiredJwtException e) {
             throw new BusinessException(Constant.NOT_LOGIN, "token过期");
         } catch (UnsupportedJwtException e) {

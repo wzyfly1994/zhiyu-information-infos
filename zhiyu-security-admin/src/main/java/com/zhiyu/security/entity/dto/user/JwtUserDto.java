@@ -15,40 +15,56 @@
  */
 package com.zhiyu.security.entity.dto.user;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
-@Getter
+@Data
 @AllArgsConstructor
 public class JwtUserDto implements UserDetails {
 
-    private final UserLoginDto user;
+    /**
+     * 登录用户信息
+     */
+    private UserLoginDto user;
 
-    private final List<Long> dataScopes;
+    /**
+     * 用户ID
+     */
+    private Long userId;
 
-    private final List<AuthorityDto> authorities;
+    /**
+     * 权限列表
+     */
+    private Set<String> permissions;
 
-    public Set<String> getRoles() {
-        return authorities.stream().map(AuthorityDto::getAuthority).collect(Collectors.toSet());
+    /**
+     * 部门ID
+     */
+    private Long deptId;
+
+    @JSONField(serialize = false)
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
     }
 
-    @Override
     @JSONField(serialize = false)
+    @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.getPassWord();
     }
 
     @Override
-    @JSONField(serialize = false)
     public String getUsername() {
-        return user.getUsername();
+        return user.getUserName();
     }
 
     @JSONField(serialize = false)
@@ -69,9 +85,9 @@ public class JwtUserDto implements UserDetails {
         return true;
     }
 
-    @Override
     @JSONField(serialize = false)
+    @Override
     public boolean isEnabled() {
-        return user.getEnabled();
+        return true;
     }
 }
