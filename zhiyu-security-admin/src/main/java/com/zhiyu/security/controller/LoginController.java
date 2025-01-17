@@ -1,6 +1,7 @@
 package com.zhiyu.security.controller;
 
 import com.zhiyu.core.result.ResponseData;
+import com.zhiyu.core.utils.EncryptUtils;
 import com.zhiyu.security.annotation.rest.AnonymousGetMapping;
 import com.zhiyu.security.annotation.rest.AnonymousPostMapping;
 import com.zhiyu.security.entity.dto.user.AuthUserDto;
@@ -11,15 +12,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * @author wengzhiyu
@@ -46,8 +45,11 @@ public class LoginController {
     @PostMapping("/logout")
     @PermitAll
     @ApiOperation("登出")
-    public ResponseData logout(@Valid @RequestBody AuthUserDto authUserDto) {
-
+    public ResponseData logout(@Valid @RequestBody Set<String> keys) throws Exception {
+        for (String token : keys) {
+            token = EncryptUtils.desDecrypt(token);
+            userService.logout(token);
+        }
         return ResponseData.success();
     }
 
@@ -66,11 +68,11 @@ public class LoginController {
     }
 
 
-    @AnonymousGetMapping("/test")
-    @PreAuthorize("@el.check()")
+    //@AnonymousGetMapping("/test")
+    @GetMapping("/test")
+    @PreAuthorize("@el.check('system')")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         log.info("1111");
-
     }
 
 }

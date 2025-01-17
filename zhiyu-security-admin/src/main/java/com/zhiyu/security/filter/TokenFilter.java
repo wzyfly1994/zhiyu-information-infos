@@ -1,7 +1,7 @@
 package com.zhiyu.security.filter;
 
 import com.zhiyu.security.config.properties.SecurityProperties;
-import com.zhiyu.security.entity.pojo.User;
+import com.zhiyu.security.entity.dto.user.OnlineUserDto;
 import com.zhiyu.security.manager.UserCacheManager;
 import com.zhiyu.security.provider.TokenProvider;
 import com.zhiyu.security.service.UserService;
@@ -56,20 +56,20 @@ public class TokenFilter extends GenericFilterBean {
         String token = resolveToken(httpServletRequest);
         // 对于 Token 为空的不需要去查 Redis
         if (StringUtils.isNotBlank(token)) {
-            User user = null;
+            OnlineUserDto onlineUserDto = null;
             boolean cleanUserCache = false;
             try {
                 String loginKey = tokenProvider.loginKey(token);
-                user = userService.getUserByKey(loginKey);
+                onlineUserDto = userService.getOnlineUserByKey(loginKey);
             } catch (ExpiredJwtException e) {
                 log.error(e.getMessage());
                 cleanUserCache = true;
             } finally {
-                if (cleanUserCache || Objects.isNull(user)) {
+                if (cleanUserCache || Objects.isNull(onlineUserDto)) {
                     userCacheManager.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).get(TokenProvider.AUTHORITIES_KEY)));
                 }
             }
-            if (user != null && StringUtils.isNotBlank(token)) {
+            if (onlineUserDto != null && StringUtils.isNotBlank(token)) {
                 Authentication authentication = tokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 // Token 续期

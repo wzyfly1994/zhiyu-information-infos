@@ -2,6 +2,7 @@ package com.zhiyu.security.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wf.captcha.base.Captcha;
 import com.zhiyu.core.exception.BusinessException;
@@ -13,30 +14,34 @@ import com.zhiyu.security.entity.dto.user.AuthUserDto;
 import com.zhiyu.security.entity.dto.user.JwtUserDto;
 import com.zhiyu.security.entity.dto.user.OnlineUserDto;
 import com.zhiyu.security.entity.dto.user.RegisterUserDto;
+import com.zhiyu.security.entity.form.user.UserQueryForm;
 import com.zhiyu.security.entity.pojo.User;
+import com.zhiyu.security.entity.vo.UserQueryVo;
 import com.zhiyu.security.enums.LoginCodeEnum;
 import com.zhiyu.security.mapper.UserMapper;
 import com.zhiyu.security.provider.TokenProvider;
 import com.zhiyu.security.service.UserService;
+import com.zhiyu.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -68,8 +73,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
-    public User getUserByKey(String key) {
-        return null;
+    public OnlineUserDto getOnlineUserByKey(String key) {
+        return (OnlineUserDto) redisUtils.get(key);
     }
 
     @Override
@@ -178,5 +183,63 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             put("uuid", uuid);
         }};
         return ResponseData.success(imgResult);
+    }
+
+    @Override
+    public void logout(String token) {
+        String loginKey = tokenProvider.loginKey(token);
+        redisUtils.del(loginKey);
+    }
+
+    @Override
+    public ResponseData getUserList(UserQueryForm userQueryForm) {
+        int pageIndex = userQueryForm.getPageIndex();
+        int pageSize = userQueryForm.getPageSize();
+
+        Page<User> page = new Page<>(pageIndex, pageSize);
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotBlank(userQueryForm.getUserName()), User::getUserName,
+                userQueryForm.getUserName());
+        queryWrapper.like(StringUtils.isNotBlank(userQueryForm.getAccount()), User::getAccount,
+                userQueryForm.getAccount());
+
+        Page<User> pageInfo = super.page(page, queryWrapper);
+        List<UserQueryVo> vos = pageInfo.getRecords().stream().map(UserQueryVo::build).collect(Collectors.toList());
+
+        Page<UserQueryVo> userQueryVoPage = new Page<>(pageIndex, pageSize);
+        userQueryVoPage.setRecords(vos);
+        userQueryVoPage.setTotal(pageInfo.getTotal());
+
+        return ResponseData.success(userQueryVoPage);
+    }
+
+    @Override
+    public ResponseData getUserInfo() {
+        UserDetails currentUser = SecurityUtils.getCurrentUser();
+        return ResponseData.success(currentUser);
+    }
+
+    @Override
+    public ResponseData getOnlineUser(String username, Pageable pageable) {
+        List<OnlineUserDto> onlineUserDtos = getAllOnlineUser(username);
+        PageResult<OnlineUserDto> pages = PageUtil.toPage(
+                PageUtil.paging(pageable.getPageNumber(), pageable.getPageSize(), onlineUserDtos),
+                onlineUserDtos.size()
+        );
+        return ResponseData.success(pages);
+    }
+
+    public List<OnlineUserDto> getAllOnlineUser(String username){
+        String loginKey = properties.getOnlineKey() +
+                (StringUtils.isBlank(username) ? "" : "*" + username);
+        List<String> keys = redisUtils.scan(loginKey + "*");
+        Collections.reverse(keys);
+        List<OnlineUserDto> onlineUserDtos = new ArrayList<>();
+        for (String key : keys) {
+            onlineUserDtos.add((OnlineUserDto) redisUtils.get(key));
+        }
+        onlineUserDtos.sort((o1, o2) -> o2.getLoginTime().compareTo(o1.getLoginTime()));
+        return onlineUserDtos;
     }
 }

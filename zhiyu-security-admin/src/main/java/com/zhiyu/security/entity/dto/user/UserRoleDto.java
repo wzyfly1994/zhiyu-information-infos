@@ -1,16 +1,16 @@
 package com.zhiyu.security.entity.dto.user;
 
 
+import com.zhiyu.security.entity.pojo.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserRoleDto {
 
-    private Long id;
+    private String id;
 
     /**
      * 角色名
@@ -27,5 +27,17 @@ public class UserRoleDto {
      */
     private String dataScope;
 
+
+    public static UserRoleDto toMo(Role role) {
+        if (role == null) {
+            return null;
+        }
+        UserRoleDto userRoleDto = new UserRoleDto();
+        userRoleDto.setId(role.getId() != null ? role.getId().toString() : null);
+        userRoleDto.setRoleName(role.getRoleName());
+        userRoleDto.setRoleValue(role.getRoleValue());
+        userRoleDto.setDataScope(role.getDataScope());
+        return userRoleDto;
+    }
 
 }

@@ -5,9 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhiyu.core.result.ResponseData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -24,16 +21,10 @@ import java.util.stream.Collectors;
 
 /**
  * 全局异常捕获处理
- *
- * @author wengzhiyu
- * @date 2020/04/23 16:43
  */
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler implements ApplicationListener<ApplicationEvent> {
-
-    @Value("${spring.profiles.active}")
-    String profilesActive;
+public class GlobalExceptionHandler {
 
     /**
      * 参数验证异常
@@ -166,7 +157,7 @@ public class GlobalExceptionHandler implements ApplicationListener<ApplicationEv
         return ResponseData.error("系统繁忙,请稍后重试");
     }
 
-    private void sendMessage(HttpServletRequest request, Exception exception) {
+    public void sendMessage(HttpServletRequest request, Exception exception) {
         logError(request, exception);
     }
 
@@ -180,24 +171,4 @@ public class GlobalExceptionHandler implements ApplicationListener<ApplicationEv
         return sw.toString();
     }
 
-
-    @Override
-    public void onApplicationEvent(ApplicationEvent event) {
-//        ContextClosedEvent：应用关闭事件
-//        ContextRefreshedEvent：应用刷新事件
-//        ContextStartedEvent：应用开启事件
-//        ContextStoppedEvent：应用停止事件
-        //如果是容器刷新事件
-//        if (event instanceof ContextClosedEvent) {
-//            System.out.println(event.getClass().getSimpleName() + " 事件已发生！");
-//        } else if (event instanceof ContextRefreshedEvent) {
-//            System.out.println(event.getClass().getSimpleName() + " 事件已发生！");
-//        } else if (event instanceof ContextStartedEvent) {
-//            System.out.println(event.getClass().getSimpleName() + " 事件已发生！");
-//        } else if (event instanceof ContextStoppedEvent) {
-//            System.out.println(event.getClass().getSimpleName() + " 事件已发生！");
-//        } else {
-//            System.out.println("有其它事件发生:" + event.getClass().getName());
-//        }
-    }
 }

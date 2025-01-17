@@ -37,7 +37,7 @@ public class UserCacheManager {
             // 获取数据
             Object obj = redisUtils.get(LoginProperties.cacheKey + userName);
             if (obj != null) {
-                return JSON.parseObject(obj.toString(), new TypeReference<JwtUserDto>(){});
+                return (JwtUserDto)obj;
             }
         }
         return null;
@@ -53,7 +53,7 @@ public class UserCacheManager {
         if (StringUtils.isNotEmpty(userName)) {
             // 添加数据, 避免数据同时过期
             long time = idleTime + RandomUtil.randomInt(900, 1800);
-            redisUtils.set(LoginProperties.cacheKey + userName, JSON.toJSONString(user), time);
+            redisUtils.set(LoginProperties.cacheKey + userName, user, time);
         }
     }
 

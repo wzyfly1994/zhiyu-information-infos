@@ -1,25 +1,23 @@
 package com.zhiyu.core.base;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.sql.Timestamp;
+import java.util.Date;
 
 
-@Getter
-@Setter
+@Data
 public class BaseDTO implements Serializable {
 
     private String createBy;
 
     private String updateBy;
 
-    private Timestamp createTime;
+    private Date createTime;
 
-    private Timestamp updateTime;
+    private Date updateTime;
 
     @Override
     public String toString() {

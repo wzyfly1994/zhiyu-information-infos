@@ -18,6 +18,7 @@ package com.zhiyu.security.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zhiyu.core.exception.BusinessException;
 import com.zhiyu.core.utils.CloneUtils;
+import com.zhiyu.security.entity.dto.user.AuthorityDto;
 import com.zhiyu.security.entity.dto.user.JwtUserDto;
 import com.zhiyu.security.entity.dto.user.UserLoginDto;
 import com.zhiyu.security.entity.dto.user.UserRoleDto;
@@ -60,21 +61,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
             // 用户权限
             Set<String> userPermissions = menuService.getMenuPermissionByUserId(user);
+            List<AuthorityDto> authorities = userPermissions.stream().map(item -> {
+                AuthorityDto dto = new AuthorityDto();
+                dto.setAuthority(item);
+                return dto;
+            }).collect(Collectors.toList());
 
-            UserLoginDto userLoginDto = CloneUtils.shallowClone(user, UserLoginDto.class);
+            UserLoginDto userLoginDto = UserLoginDto.toMo(user);
 
             //用户角色
             List<Role> userRoles = roleService.getUserRolesByUserId(user.getId());
             if (CollectionUtils.isNotEmpty(userRoles)) {
                 List<UserRoleDto> userRolesDto = userRoles.stream()
-                        .map(userRole -> CloneUtils.shallowClone(userRole, UserRoleDto.class))
+                        .map(UserRoleDto::toMo)
                         .collect(Collectors.toList());
                 userLoginDto.setRoles(userRolesDto);
             }
 
-            jwtUserDto = new JwtUserDto(userLoginDto, userLoginDto.getId(), userPermissions, userLoginDto.getDeptId());
+            jwtUserDto = new JwtUserDto(userLoginDto, userLoginDto.getId(),
+                    userPermissions, userLoginDto.getDeptId(),authorities);
 
-            //  添加缓存数据
+            //  添加用户缓存数据
             userCacheManager.addUserCache(username, jwtUserDto);
         }
 

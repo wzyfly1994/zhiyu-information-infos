@@ -16,14 +16,14 @@
 package com.zhiyu.security.entity.dto.user;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 
 @Data
@@ -38,7 +38,7 @@ public class JwtUserDto implements UserDetails {
     /**
      * 用户ID
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 权限列表
@@ -48,15 +48,14 @@ public class JwtUserDto implements UserDetails {
     /**
      * 部门ID
      */
-    private Long deptId;
+    private String deptId;
+
+
+    private List<AuthorityDto> authorities;
+
 
     @JSONField(serialize = false)
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
-    }
-
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public String getPassword() {
         return user.getPassWord();
@@ -64,7 +63,7 @@ public class JwtUserDto implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUserName();
+        return user.getAccount();
     }
 
     @JSONField(serialize = false)

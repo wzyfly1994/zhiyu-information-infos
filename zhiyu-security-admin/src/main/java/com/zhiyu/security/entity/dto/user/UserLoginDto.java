@@ -17,18 +17,19 @@ package com.zhiyu.security.entity.dto.user;
 
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zhiyu.core.base.BaseDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.zhiyu.security.entity.pojo.User;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class UserLoginDto extends BaseDTO {
 
-    private Long id;
+    private String id;
 
     /**
      * 账号
@@ -39,6 +40,7 @@ public class UserLoginDto extends BaseDTO {
      * 密码
      */
     @JSONField(serialize = false)
+    @JsonIgnore
     private String passWord;
 
     /**
@@ -64,7 +66,7 @@ public class UserLoginDto extends BaseDTO {
     /**
      * 组织id
      */
-    private Long deptId;
+    private String deptId;
 
     /**
      * 是否超级管理员
@@ -81,5 +83,25 @@ public class UserLoginDto extends BaseDTO {
      */
     private List<UserRoleDto> roles;
 
+
+    public static UserLoginDto toMo(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserLoginDto userLoginDto = new UserLoginDto();
+        userLoginDto.setId(user.getId() != null ? user.getId().toString() : null);
+        userLoginDto.setAccount(user.getAccount());
+        userLoginDto.setPassWord(user.getPassWord());
+        userLoginDto.setUserName(user.getUserName());
+        userLoginDto.setSex(user.getSex());
+        userLoginDto.setEmail(user.getEmail());
+        userLoginDto.setPhone(user.getPhone());
+        userLoginDto.setDeptId(user.getDeptId() != null ? user.getDeptId().toString() : null);
+        userLoginDto.setIsAdmin(user.getIsAdmin());
+        userLoginDto.setStatus(user.getStatus());
+        userLoginDto.setCreateTime(user.getCreateTime());
+        userLoginDto.setUpdateTime(user.getUpdateTime());
+        return userLoginDto;
+    }
 
 }
