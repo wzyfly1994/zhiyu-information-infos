@@ -125,6 +125,7 @@ create table user_role
     comment '用户角色';
 
 
+
 INSERT INTO user (id, account, pass_word, user_name, sex, email, phone, dept_id, is_admin, status, deleted, create_time, update_time, delete_time, create_at, update_at, delete_at) VALUES (1, 'jason001', '$2a$10$0Z/RPNjU9VFfP0WCmYDcl.uFnSlSM26Y9oCt0monnZo58ddPaY4JS', 'jason', 1, '123@gmail.com', '12311', 1, 0, 0, 0, '2024-12-23 16:05:38', '2024-12-23 16:05:38', null, null, null, null);
 INSERT INTO user_role (id, user_id, role_id, deleted, create_time, update_time, delete_time, create_at, update_at, delete_at) VALUES (1, 1, 1, 0, '2024-12-25 16:00:54', '2024-12-25 16:00:54', null, null, null, null);
 INSERT INTO role (id, role_name, role_value, data_scope, status, deleted, create_time, update_time, delete_time, create_at, update_at, delete_at) VALUES (1, '超级管理员', 'admin', '1', 0, 0, '2024-12-25 15:55:20', '2024-12-25 15:55:25', null, 1, null, null);
